@@ -1,4 +1,11 @@
-﻿body {
+﻿.VRP-a
+{
+    direction :rtl;
+    color : crimson;
+    font-family :'B Titr';
+}
+
+body {
     padding-top: 50px;
     padding-bottom: 20px;
 }
