@@ -98,6 +98,9 @@ namespace VehicleRoutingProblem.Controllers
         [AllowAnonymous]
         public IActionResult Register(string returnUrl = null)
         {
+            //Enum.GetNames(vrpEnum.AccountType t);
+            List<string> lstTypeAcount = new List<string>() { "Amir","Reza" };
+            ViewBag.lstTypeACOUNT = lstTypeAcount;
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }

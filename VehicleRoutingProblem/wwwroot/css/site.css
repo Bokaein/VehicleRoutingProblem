@@ -1,10 +1,51 @@
-﻿.VRP-a
+﻿.vrp
 {
-    direction :rtl;
-    color : crimson;
+    /*float:right;*/
+    direction : rtl;
+    font-family:'B Nazanin';
+}
+/*.vrp:before {
+    content: "*";
+    display: inline-block;
+    padding-left: 1%;
+    font: 12px Tahoma;
+    color: red;
+}*/
+.vrp-text
+{
+    font-family : Tahoma;
+}
+.vrp-text-import {
+    color: red;
+    font-family: 'B Titr';
+    font-weight: 700;
+}
+.vrp-text-necessary {
+    color: black;
+    font-family: 'B Titr';
+    font-weight: 700;
+    font:bold;
+}
+    .vrp-text-necessary:after {
+        content: "*";
+        display: inline-block;
+        color: red;
+        font-family: 'B Titr';
+        font-weight: 700;
+        font: bold;
+    }
+.vrp-a
+{
+    /*direction :rtl;*/
+    color : seagreen;
     font-family :'B Titr';
+    /*float:right;*/
 }
 
+.vrp-h2
+{
+    font-family:'B Titr';
+}
 body {
     padding-top: 50px;
     padding-bottom: 20px;
@@ -15,6 +56,7 @@ body {
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
+    direction:rtl;
 }
 
 /* Set widths on the form inputs since otherwise they're 100% wide */

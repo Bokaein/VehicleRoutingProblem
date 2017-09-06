@@ -43,6 +43,9 @@ namespace VehicleRoutingProblem
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddDbContext<vrpDBContext>(options =>
+          options.UseSqlServer(Configuration.GetConnectionString("VRPConnectionString")));
+
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
