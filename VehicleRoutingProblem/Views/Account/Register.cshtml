@@ -76,12 +76,11 @@
             </div>
         </div>
         <div class="form-group">
-            <label asp-for="Acc_Type" class="vrp-text-necessary col-md-2 control-label"></label>
+            <label asp-for="AccountType" class="vrp-text-necessary col-md-2 control-label"></label>
             <div class="col-md-10">
                 <select asp-items="@(new SelectList(ViewBag.lstTypeACOUNT))" >
                 </select>
-                <input asp-for="Acc_Type" class="form-control" />
-                <span asp-validation-for="Acc_Type" class="text-danger"></span>
+                <span asp-validation-for="AccountType" class="text-danger"></span>
             </div>
         </div>
     </div>

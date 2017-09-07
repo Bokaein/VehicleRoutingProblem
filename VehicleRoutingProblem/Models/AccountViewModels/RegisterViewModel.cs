@@ -14,8 +14,8 @@ namespace VehicleRoutingProblem.Models.AccountViewModels
     {
         public RegisterViewModel()
         {
-            if(TokenID==null)
-              Token = null;
+            if (CompanyInfoID == null)
+                CompanyInfo = null;
         }
 
         [Key]
@@ -29,8 +29,17 @@ namespace VehicleRoutingProblem.Models.AccountViewModels
         [Required]
         [Display(Name = "نام خانوادگی")]
         public string LastName { get; set; }
-        
 
+        
+        [EmailAddress]
+        [Display(Name = "ایمیل")]
+        public string Email { get; set; }
+
+        [Required]
+        [Phone]
+        [Display(Name = "تلفن همراه")]
+        public string PhoneNumber { get; set; }
+        
         [Required]
         [Display(Name = "نام کاربری")]
         public string  UserName { get; set; }
@@ -46,16 +55,6 @@ namespace VehicleRoutingProblem.Models.AccountViewModels
         [Display(Name = "تکرار کلمه عبور")]
         [Compare("Password", ErrorMessage = "پسورد یکسان وارد نشده است")]
         public string ConfirmPassword { get; set; }
-
-        [Required]
-        [EmailAddress]
-        [Display(Name = "ایمیل")]
-        public string Email { get; set; }
-
-        [Phone]
-        [Display(Name = "تلفن همراه")]
-        public string PhoneNumber { get; set; }
-
         
         [Display(Name = "آدرس")]
         public string Address { get; set; }
@@ -65,13 +64,21 @@ namespace VehicleRoutingProblem.Models.AccountViewModels
         [StringLength(10, ErrorMessage = "کد ملی باید با صفر شروع شود و {1} رقم باشد", MinimumLength = 10)]
         public string NationalCode { get; set; }
 
-        [Required]
-        [Display(Name = "نوع کاربری")]
-        public int AccountTypeID { get; set; }
-        
-        public int? TokenID { get; set; }
 
-        public AccountType AccountType { get; set; }
-        public Token Token { get; set; }
+        [Display(Name = "عکس شخصی")]
+        public byte[] Image { get; set; }
+
+
+        public int? CompanyInfoID { get; set; }
+
+        [Display(Name = "ارسال اطلاعات کاربری از طریق ایمیل")]
+        public bool? SentEmail { get; set; }
+        [Display(Name = "ارسال اطلاعات کاربری از طریق پیامک")]
+        public bool? SentSMS { get; set; }
+
+
+        //*********
+        public ICollection<Register_AccountType> Register_AccountType { get; set; }
+        public CompanyInfo CompanyInfo { get; set; }
     }
 }

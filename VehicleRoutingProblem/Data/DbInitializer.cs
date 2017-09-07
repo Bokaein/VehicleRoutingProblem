@@ -32,15 +32,15 @@ namespace VehicleRoutingProblem.Data
             }
 
             //افزودن کد مدیرسامانه جهت شرکت بهپویان
-            if (!context.tbTokens.Any())
+            if (!context.tbCompanyInfos.Any())
             {
-                var lstToken = new Token[]
+                var lstToken = new CompanyInfo[]
                 {
-                    new Token(){CompanyName = "بهپویان"},
+                    new CompanyInfo(){CompanyName = "بهپویان"},
                 };
-                foreach (Token s in lstToken)
+                foreach (CompanyInfo s in lstToken)
                 {
-                    context.tbTokens.Add(s);
+                    context.tbCompanyInfos.Add(s);
                 }
                 context.SaveChanges();
             }

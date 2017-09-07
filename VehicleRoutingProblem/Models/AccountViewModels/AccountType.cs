@@ -17,7 +17,7 @@ namespace VehicleRoutingProblem.Models.AccountViewModels
         public string TypeName { get; set; }
 
         //*****
-        public ICollection<RegisterViewModel> RegisterViewModels { get; set; }
+        public ICollection<Register_AccountType> Register_AccountType { get; set; }
 
     }
 }
