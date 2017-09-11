@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using VehicleRoutingProblem.Models;
 using VehicleRoutingProblem.Models.AccountViewModels;
 namespace VehicleRoutingProblem.Data
 {
     public static class DbInitializer
     {
-        public static void Initialize(Data.vrpDBContext context)
+        public static void Initialize(Data.VRPDbContext context)
         {
             //method to automatically create the database
             context.Database.EnsureCreated();
@@ -34,16 +35,35 @@ namespace VehicleRoutingProblem.Data
             //افزودن کد مدیرسامانه جهت شرکت بهپویان
             if (!context.tbCompanyInfos.Any())
             {
-                var lstToken = new CompanyInfo[]
+                CompanyInfo ComInfo = new CompanyInfo() { CompanyName = "بهپویان" ,SiteUrl = "www.Behpouyan.ir"};
+                context.tbCompanyInfos.Add(ComInfo);
+                Users Reg = new Users()
                 {
-                    new CompanyInfo(){CompanyName = "بهپویان"},
+                    Address = "پارک علم وفناوری",
+                    CompanyInfo = ComInfo,
+                    FristName = "Amir",
+                    LastName = "Bokaeyan",
+                    UserName = "am.bo740",
+                   // Password = "123456",
+                    Email = "am.bo740@gmail.com",
+                    NationalCode = "0920774768",
+                    PhoneNumber = "09155581868",
+                    PasswordHash = ""
+                    
                 };
-                foreach (CompanyInfo s in lstToken)
+                context.Users.Add(Reg);
+                context.tbRegister_AccountTypes.Add(new Register_AccountType()
                 {
-                    context.tbCompanyInfos.Add(s);
-                }
+                    AccountTypeID = 1,
+                    Users = Reg
+                });
+
+
+
                 context.SaveChanges();
             }
+
+            
 
 
         }

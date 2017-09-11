@@ -12,11 +12,7 @@ namespace VehicleRoutingProblem.Models.AccountViewModels
     /// </summary>
     public class RegisterViewModel
     {
-        public RegisterViewModel()
-        {
-            if (CompanyInfoID == null)
-                CompanyInfo = null;
-        }
+        
 
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -56,29 +52,9 @@ namespace VehicleRoutingProblem.Models.AccountViewModels
         [Compare("Password", ErrorMessage = "پسورد یکسان وارد نشده است")]
         public string ConfirmPassword { get; set; }
         
-        [Display(Name = "آدرس")]
-        public string Address { get; set; }
         
-        [Required]
-        [Display(Name = "کد ملی")]
-        [StringLength(10, ErrorMessage = "کد ملی باید با صفر شروع شود و {1} رقم باشد", MinimumLength = 10)]
-        public string NationalCode { get; set; }
 
 
-        [Display(Name = "عکس شخصی")]
-        public byte[] Image { get; set; }
-
-
-        public int? CompanyInfoID { get; set; }
-
-        [Display(Name = "ارسال اطلاعات کاربری از طریق ایمیل")]
-        public bool? SentEmail { get; set; }
-        [Display(Name = "ارسال اطلاعات کاربری از طریق پیامک")]
-        public bool? SentSMS { get; set; }
-
-
-        //*********
-        public ICollection<Register_AccountType> Register_AccountType { get; set; }
-        public CompanyInfo CompanyInfo { get; set; }
+       
     }
 }

@@ -5,14 +5,14 @@ using System.Threading.Tasks;
 
 namespace VehicleRoutingProblem.Models.AccountViewModels
 {
-    public class Register_AccountType
+    public class UserLog
     {
         public int ID { get; set; }
+        public int RegisterViewModelID { get; set; }
+        public DateTime? LogIn { get; set; }
+        public DateTime? LogOut { get; set; }
 
-        public int AccountTypeID { get; set; }
-        public int UsersId { get; set; }
-
+        //******
         public Users Users { get; set; }
-        public AccountType AccountType { get; set; }
     }
 }

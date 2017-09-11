@@ -12,26 +12,28 @@ using Microsoft.Extensions.Options;
 using VehicleRoutingProblem.Models;
 using VehicleRoutingProblem.Models.AccountViewModels;
 using VehicleRoutingProblem.Services;
-
+using VehicleRoutingProblem.Data;
+using Microsoft.EntityFrameworkCore;
 namespace VehicleRoutingProblem.Controllers
 {
     [Authorize]
     public class AccountController : Controller
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<Users> _userManager;
+        private readonly SignInManager<Users> _signInManager;
         private readonly IEmailSender _emailSender;
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
         private readonly string _externalCookieScheme;
-
+       
         public AccountController(
-            UserManager<ApplicationUser> userManager,
-            SignInManager<ApplicationUser> signInManager,
+            UserManager<Users> userManager,
+            SignInManager<Users> signInManager,
             IOptions<IdentityCookieOptions> identityCookieOptions,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            ILoggerFactory loggerFactory)
+            ILoggerFactory loggerFactory
+            )
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -39,6 +41,7 @@ namespace VehicleRoutingProblem.Controllers
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
+           
         }
 
         //
@@ -62,11 +65,13 @@ namespace VehicleRoutingProblem.Controllers
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
+
+            #region این کد قبلی خودش بوده واصلا نفهمیدم چه می کند حذفش کردم وخودم نوشتم
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(model.UserName, model.Password, model.RememberMe=true, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation(1, "User logged in.");
@@ -87,9 +92,38 @@ namespace VehicleRoutingProblem.Controllers
                     return View(model);
                 }
             }
+            #endregion
+            //string EncryptPass = Encrypt(model.Password);
+            //var aa = await _Context.tbRegisters.Where(i => i.UserName == model.UserName && i.Password == EncryptPass).FirstOrDefaultAsync();
+            ////***اگر پیدا نکرد
+            //if (aa == null)
+            //{
+            //    return View(model);
+            //}
+
+            ////** اگر پیدا کرد
+            //UserLog log = new UserLog() { LogIn = DateTime.Now, RegisterViewModelID = aa.ID };
+            //_Context.tbUserLogs.Add(log);
+            //_Context.SaveChanges();
+            //return RedirectToLocal(returnUrl);
 
             // If we got this far, something failed, redisplay form
             return View(model);
+
+        }
+
+        /// <summary>
+        /// پسورد را کد کرده جهت مقایه با پسورد موجود
+        /// </summary>
+        /// <param name="Pass"></param>
+        /// <returns></returns>
+        private string Encrypt(string Pass)
+        {
+            //*****
+            // قفل کردن پسورد
+            //؟؟؟ بعدا باید نوشته شود
+            //********
+            return Pass;
         }
 
         //
@@ -115,7 +149,7 @@ namespace VehicleRoutingProblem.Controllers
             ViewData["ReturnUrl"] = returnUrl;
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new Users { UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -217,7 +251,7 @@ namespace VehicleRoutingProblem.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new Users { UserName = model.Email, Email = model.Email };
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

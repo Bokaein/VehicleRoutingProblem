@@ -30,7 +30,7 @@ namespace VehicleRoutingProblem
                 var services = scope.ServiceProvider;
                 try
                 {
-                    var context = services.GetRequiredService<Data.vrpDBContext>();
+                    var context = services.GetRequiredService<Data.VRPDbContext>();
                     DbInitializer.Initialize(context);
                 }
                 catch (Exception ex)

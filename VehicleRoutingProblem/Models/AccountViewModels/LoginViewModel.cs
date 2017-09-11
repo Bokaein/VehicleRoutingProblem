@@ -9,9 +9,9 @@ namespace VehicleRoutingProblem.Models.AccountViewModels
     public class LoginViewModel
     {
         [Required]
-        [EmailAddress]
-        [Display(Name ="ایمیل")]
-        public string Email { get; set; }
+        //[EmailAddress]
+        [Display(Name ="شناسه کاربری")]
+        public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]

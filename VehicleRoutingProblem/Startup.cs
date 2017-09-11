@@ -40,14 +40,14 @@ namespace VehicleRoutingProblem
         public void ConfigureServices(IServiceCollection services)
         {
             // Add framework services.
-            services.AddDbContext<ApplicationDbContext>(options =>
+            services.AddDbContext<VRPDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddDbContext<vrpDBContext>(options =>
-          options.UseSqlServer(Configuration.GetConnectionString("VRPConnectionString")));
+          //  services.AddDbContext<vrpDBContext>(options =>
+          //options.UseSqlServer(Configuration.GetConnectionString("VRPConnectionString")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+            services.AddIdentity<Users, IdentityRole>()
+                .AddEntityFrameworkStores<VRPDbContext>()
                 .AddDefaultTokenProviders();
 
             services.AddMvc();

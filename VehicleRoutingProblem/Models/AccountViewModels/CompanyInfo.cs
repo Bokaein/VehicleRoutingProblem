@@ -27,6 +27,6 @@ namespace VehicleRoutingProblem.Models.AccountViewModels
         [Display(Name = "آدرس سایت شرکت")]
         public string SiteUrl { get; set; }
         //******
-        public ICollection<RegisterViewModel> RegisterViewModels { get; set; }
+        public ICollection<Users> Users { get; set; }
     }
 }

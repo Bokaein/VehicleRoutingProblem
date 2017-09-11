@@ -8,9 +8,10 @@ using VehicleRoutingProblem.Data;
 namespace VehicleRoutingProblem.Data.Migrations
 {
     [DbContext(typeof(VRPDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170911101258_MergeData")]
+    partial class MergeData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
@@ -174,6 +175,34 @@ namespace VehicleRoutingProblem.Data.Migrations
                     b.ToTable("tbRegister_AccountTypes");
                 });
 
+            modelBuilder.Entity("VehicleRoutingProblem.Models.AccountViewModels.RegisterViewModel", b =>
+                {
+                    b.Property<int>("ID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Email");
+
+                    b.Property<string>("FristName")
+                        .IsRequired();
+
+                    b.Property<string>("LastName")
+                        .IsRequired();
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasMaxLength(100);
+
+                    b.Property<string>("PhoneNumber")
+                        .IsRequired();
+
+                    b.Property<string>("UserName")
+                        .IsRequired();
+
+                    b.HasKey("ID");
+
+                    b.ToTable("RegisterViewModel");
+                });
+
             modelBuilder.Entity("VehicleRoutingProblem.Models.AccountViewModels.UserLog", b =>
                 {
                     b.Property<int>("ID")
@@ -188,6 +217,8 @@ namespace VehicleRoutingProblem.Data.Migrations
                     b.Property<string>("UsersId");
 
                     b.HasKey("ID");
+
+                    b.HasIndex("RegisterViewModelID");
 
                     b.HasIndex("UsersId");
 
@@ -322,7 +353,12 @@ namespace VehicleRoutingProblem.Data.Migrations
 
             modelBuilder.Entity("VehicleRoutingProblem.Models.AccountViewModels.UserLog", b =>
                 {
-                    b.HasOne("VehicleRoutingProblem.Models.Users", "Users")
+                    b.HasOne("VehicleRoutingProblem.Models.AccountViewModels.RegisterViewModel", "RegisterViewModel")
+                        .WithMany()
+                        .HasForeignKey("RegisterViewModelID")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("VehicleRoutingProblem.Models.Users")
                         .WithMany("UserLog")
                         .HasForeignKey("UsersId");
                 });
