@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,6 +9,12 @@ namespace VehicleRoutingProblem.Data
 {
     public static class DbInitializer
     {
+        public static void CreatNewManager()
+        {
+            //UserManager<Users> _userManager = new UserManager<Users>(null);
+            //var user = new Users { UserName = "Amir", Email = "am.bo740@gmail.com" };
+            //var result = _userManager.CreateAsync(user, "123456");
+        }
         public static void Initialize(Data.VRPDbContext context)
         {
             //method to automatically create the database

@@ -1,8 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using VehicleRoutingProblem.Models
 
-@inject SignInManager<ApplicationUser> SignInManager
-@inject UserManager<ApplicationUser> UserManager
+@inject SignInManager<Users> SignInManager
+@inject UserManager<Users> UserManager
 
 @if (SignInManager.IsSignedIn(User))
 {
@@ -28,7 +28,7 @@
 else
 {
     <ul class="nav navbar-nav navbar-right navbar-default">
-        @*<li><a asp-area="" asp-controller="Account" asp-action="Register">Register</a></li>*@
+        <li><a asp-area="" asp-controller="Account" asp-action="Register">Register</a></li>
         <li><a asp-area="" asp-controller="Account" asp-action="Login">ورود</a></li>
     </ul>
 }
