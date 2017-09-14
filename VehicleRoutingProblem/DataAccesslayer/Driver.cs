@@ -15,7 +15,7 @@ namespace VehicleRoutingProblem.DataAccesslayer
         {
         }
 
-        public string ViehcleName { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public string Model { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+        public string ViehcleName { get; set ; }
+        public string Model { get ; set ; }
     }
 }
