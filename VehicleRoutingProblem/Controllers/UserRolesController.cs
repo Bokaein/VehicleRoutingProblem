@@ -22,7 +22,14 @@ namespace VehicleRoutingProblem.Controllers
         // GET: UserRoles
         public async Task<IActionResult> Index()
         {
-            return View(await _context.UserRoles.ToListAsync());
+            // Join with query expression.
+
+            var URs =await _context.Users.Join(_context.Roles,
+                a => a.Id,
+                b => b.Id,
+                (a, b) => new Models.UserRoleViewModel.IndexViewModel { RolesName = a.LastName, UserName = b.Name }).ToListAsync();
+
+           return View(URs);
         }
 
         // GET: UserRoles/Details/5
@@ -70,8 +77,21 @@ namespace VehicleRoutingProblem.Controllers
             {
                 _context.Add(ur);
                 await _context.SaveChangesAsync();
+                
+            }
+
+
+             ur = new UserRoles();
+            ur.UserId = _context.Users.FirstOrDefault().Id;
+            ur.RoleId = _context.Roles.LastOrDefault().Id;
+            if (ModelState.IsValid)
+            {
+                _context.Add(ur);
+                await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+
+
             return View(userRoles);
         }
 

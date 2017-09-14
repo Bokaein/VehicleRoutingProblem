@@ -1,4 +1,4 @@
-@model IEnumerable<VehicleRoutingProblem.Models.UserRoles>
+@model List<VehicleRoutingProblem.Models.UserRoleViewModel.IndexViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -19,6 +19,8 @@
 @foreach (var item in Model) {
         <tr>
             <td>
+                @*@Html.DisplayFor(modelItem => item.RolesName) |
+                @Html.DisplayFor(modelItem => item.UserName) |*@
                 @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
                 @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
