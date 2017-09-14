@@ -36,6 +36,7 @@ namespace VehicleRoutingProblem.Controllers
             )
         {
             _userManager = userManager;
+
             _signInManager = signInManager;
             _externalCookieScheme = identityCookieOptions.Value.ExternalCookieAuthenticationScheme;
             _emailSender = emailSender;
