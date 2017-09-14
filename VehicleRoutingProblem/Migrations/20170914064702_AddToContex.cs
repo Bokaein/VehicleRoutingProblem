@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace VehicleRoutingProblem.Data.Migrations
+namespace VehicleRoutingProblem.Migrations
 {
-    public partial class CreateIdentitySchema : Migration
+    public partial class AddToContex : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -40,28 +38,32 @@ namespace VehicleRoutingProblem.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AspNetUsers",
+                name: "tbAccountTypes",
                 columns: table => new
                 {
-                    Id = table.Column<string>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false),
-                    ConcurrencyStamp = table.Column<string>(nullable: true),
-                    Email = table.Column<string>(maxLength: 256, nullable: true),
-                    EmailConfirmed = table.Column<bool>(nullable: false),
-                    LockoutEnabled = table.Column<bool>(nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
-                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
-                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
-                    PasswordHash = table.Column<string>(nullable: true),
-                    PhoneNumber = table.Column<string>(nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
-                    SecurityStamp = table.Column<string>(nullable: true),
-                    TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    UserName = table.Column<string>(maxLength: 256, nullable: true)
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    TypeName = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.PrimaryKey("PK_tbAccountTypes", x => x.ID);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tbCompanyInfos",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Address = table.Column<string>(nullable: true),
+                    CompanyName = table.Column<string>(nullable: false),
+                    Icon = table.Column<byte[]>(nullable: true),
+                    SiteUrl = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbCompanyInfos", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -82,6 +84,46 @@ namespace VehicleRoutingProblem.Data.Migrations
                         column: x => x.RoleId,
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<string>(nullable: false),
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    Address = table.Column<string>(nullable: true),
+                    CompanyInfoID = table.Column<int>(nullable: false),
+                    ConcurrencyStamp = table.Column<string>(nullable: true),
+                    Email = table.Column<string>(maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(nullable: false),
+                    FristName = table.Column<string>(nullable: false),
+                    Image = table.Column<byte[]>(nullable: true),
+                    LastName = table.Column<string>(nullable: false),
+                    LockoutEnabled = table.Column<bool>(nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
+                    NationalCode = table.Column<string>(maxLength: 10, nullable: false),
+                    NormalizedEmail = table.Column<string>(maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(maxLength: 256, nullable: true),
+                    PasswordHash = table.Column<string>(nullable: true),
+                    PhoneNumber = table.Column<string>(nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(nullable: false),
+                    SecurityStamp = table.Column<string>(nullable: true),
+                    SentEmail = table.Column<bool>(nullable: false),
+                    SentSMS = table.Column<bool>(nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(nullable: false),
+                    UserName = table.Column<string>(maxLength: 256, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                    table.UniqueConstraint("uniqe_UserNameAndCompany", x => new { x.UserName, x.CompanyInfoID });
+                    table.ForeignKey(
+                        name: "FK_AspNetUsers_tbCompanyInfos_CompanyInfoID",
+                        column: x => x.CompanyInfoID,
+                        principalTable: "tbCompanyInfos",
+                        principalColumn: "ID",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -150,10 +192,59 @@ namespace VehicleRoutingProblem.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "tbRegister_AccountTypes",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    AccountTypeID = table.Column<int>(nullable: true),
+                    UsersId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbRegister_AccountTypes", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_tbRegister_AccountTypes_tbAccountTypes_AccountTypeID",
+                        column: x => x.AccountTypeID,
+                        principalTable: "tbAccountTypes",
+                        principalColumn: "ID",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_tbRegister_AccountTypes_AspNetUsers_UsersId",
+                        column: x => x.UsersId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "tbUserLogs",
+                columns: table => new
+                {
+                    ID = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    LogIn = table.Column<DateTime>(nullable: true),
+                    LogOut = table.Column<DateTime>(nullable: true),
+                    RegisterViewModelID = table.Column<int>(nullable: false),
+                    UsersId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_tbUserLogs", x => x.ID);
+                    table.ForeignKey(
+                        name: "FK_tbUserLogs_AspNetUsers_UsersId",
+                        column: x => x.UsersId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "RoleNameIndex",
                 table: "AspNetRoles",
-                column: "NormalizedName");
+                column: "NormalizedName",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -176,9 +267,24 @@ namespace VehicleRoutingProblem.Data.Migrations
                 column: "RoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AspNetUserRoles_UserId",
-                table: "AspNetUserRoles",
-                column: "UserId");
+                name: "IX_tbRegister_AccountTypes_AccountTypeID",
+                table: "tbRegister_AccountTypes",
+                column: "AccountTypeID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbRegister_AccountTypes_UsersId",
+                table: "tbRegister_AccountTypes",
+                column: "UsersId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_tbUserLogs_UsersId",
+                table: "tbUserLogs",
+                column: "UsersId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_CompanyInfoID",
+                table: "AspNetUsers",
+                column: "CompanyInfoID");
 
             migrationBuilder.CreateIndex(
                 name: "EmailIndex",
@@ -210,10 +316,22 @@ namespace VehicleRoutingProblem.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "tbRegister_AccountTypes");
+
+            migrationBuilder.DropTable(
+                name: "tbUserLogs");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "tbAccountTypes");
+
+            migrationBuilder.DropTable(
                 name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
+                name: "tbCompanyInfos");
         }
     }
 }

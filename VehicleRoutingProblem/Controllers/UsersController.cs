@@ -10,6 +10,7 @@ using VehicleRoutingProblem.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using VehicleRoutingProblem.Models.AccountViewModels;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace VehicleRoutingProblem.Controllers
 {
@@ -17,18 +18,23 @@ namespace VehicleRoutingProblem.Controllers
     {
         private readonly VRPDbContext _context;
         private readonly UserManager<Users> _userManager;
+       // private readonly RoleManager<Roles> _RoleManager;
         private readonly SignInManager<Users> _signInManager;
         private readonly ILogger _logger;
 
         public UsersController(
             UserManager<Users> userManager,
-            SignInManager<Users> signInManager, 
+            //RoleManager<Roles> RoleManager,
+        SignInManager<Users> signInManager, 
             VRPDbContext context,
             ILoggerFactory loggerFactory)
         {
             _context = context;
+
             _userManager = userManager;
+            //_RoleManager = RoleManager;
             _signInManager = signInManager;
+
             _logger = loggerFactory.CreateLogger<AccountController>();
         }
 
@@ -124,13 +130,25 @@ namespace VehicleRoutingProblem.Controllers
                     SentSMS = users.SentSMS
                 };
                 var result = await _userManager.CreateAsync(user, users.Password);
-                Register_AccountType ReigType = new Register_AccountType()
-                {
-                    Users = user,
-                    AccountTypeID = 1
-                };
-                _context.tbRegister_AccountTypes.Add(ReigType);
-                await _context.SaveChangesAsync();
+                
+                //  var result = await _RoleManager.CreateAsync(user, users.Password);
+
+                //var RoleManager = new RoleManager<IdentityRole>(
+                //  new RoleStore<IdentityRole>(new MyDbContext()));
+                //var roleresult = RoleManager.Create(new IdentityRole(roleName));
+
+                //UserRoles ReigType = new UserRoles()
+                //{
+                //    UserId = user.Id,
+                //    RoleId ="sfdv"
+                //};
+
+
+
+                //_context.UserRoles.Add(ReigType);
+                //await _context.SaveChangesAsync();
+
+
                 //user.Register_AccountType.Add(new Register_AccountType() {Users = user });
                 //result = await _context.tbRegister_AccountTypes()
                 if (result.Succeeded)

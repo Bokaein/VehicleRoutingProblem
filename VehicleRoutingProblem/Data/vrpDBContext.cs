@@ -26,11 +26,12 @@ namespace VehicleRoutingProblem.Data
                 .HasAlternateKey(c => new { c.UserName, c.CompanyInfoID })
                 .HasName("uniqe_UserNameAndCompany");
         }
-        public DbSet<AccountType> tbAccountTypes { get; set; }
-       // public DbSet<RegisterViewModel> tbRegisters { get; set; }
+        // public DbSet<RegisterViewModel> tbRegisters { get; set; }
         public DbSet<CompanyInfo> tbCompanyInfos { get; set; }
-        public DbSet<Register_AccountType> tbRegister_AccountTypes { get; set; }
-        public DbSet<UserLog> tbUserLogs { get; set; }
-        public DbSet<VehicleRoutingProblem.Models.Users> Users { get; set; }
+        public DbSet<VehicleRoutingProblem.Models.Roles> Roles { get; set; }
+        public DbSet<VehicleRoutingProblem.Models.UserRoles> UserRoles { get; set; }
+        //public DbSet<VehicleRoutingProblem.Models.Users> Users { get; set; }
+        //public DbSet<VehicleRoutingProblem.Models.Roles> Roles { get; set; }
+        //public DbSet<VehicleRoutingProblem.Models.UserRoles> UserRoles { get; set; }
     }
 }

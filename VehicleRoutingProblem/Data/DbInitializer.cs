@@ -22,19 +22,19 @@ namespace VehicleRoutingProblem.Data
 
             // Look for any students.
             //checks if there are any students in the database, and if not, it assumes the database is new and needs to be seeded with test data.
-            if (!context.tbAccountTypes.Any())
+            if (!context.Roles.Any())
             {
                 //افزودن انواع کاربران سیستم
-                var lstAccount = new AccountType[]
+                var lstAccount = new Roles[]
                 {
-                    new AccountType(){TypeName = "مدیر سامانه"},
-                    new AccountType(){TypeName = "راننده"},
-                    new AccountType(){TypeName = "مشتری"},
-                    new AccountType(){TypeName = "متقاضی"},
+                    new Roles(){Name = "مدیر سامانه"},
+                    new Roles(){Name = "راننده"},
+                    new Roles(){Name = "مشتری"},
+                    new Roles(){Name = "متقاضی"},
                 };
-                foreach (AccountType s in lstAccount)
+                foreach (Roles s in lstAccount)
                 {
-                    context.tbAccountTypes.Add(s);
+                    context.Roles.Add(s);
                 }
                 context.SaveChanges();
             }
@@ -59,12 +59,6 @@ namespace VehicleRoutingProblem.Data
                     
                 };
                 context.Users.Add(Reg);
-                context.tbRegister_AccountTypes.Add(new Register_AccountType()
-                {
-                    AccountTypeID = 1,
-                    Users = Reg
-                });
-
 
 
                 context.SaveChanges();

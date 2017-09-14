@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using VehicleRoutingProblem.Data;
 
-namespace VehicleRoutingProblem.Data.Migrations
+namespace VehicleRoutingProblem.Migrations
 {
     [DbContext(typeof(VRPDbContext))]
-    [Migration("20170911101258_MergeData")]
-    partial class MergeData
+    [Migration("20170914074046_AddUserRolesScafold")]
+    partial class AddUserRolesScafold
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -25,6 +25,9 @@ namespace VehicleRoutingProblem.Data.Migrations
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
+
                     b.Property<string>("Name")
                         .HasMaxLength(256);
 
@@ -38,6 +41,8 @@ namespace VehicleRoutingProblem.Data.Migrations
                         .HasName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityRole");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
@@ -102,11 +107,16 @@ namespace VehicleRoutingProblem.Data.Migrations
 
                     b.Property<string>("RoleId");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
+
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUserRole<string>");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserToken<string>", b =>
@@ -160,47 +170,17 @@ namespace VehicleRoutingProblem.Data.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("AccountTypeID");
+                    b.Property<int?>("AccountTypeID");
 
-                    b.Property<int>("UsersId");
-
-                    b.Property<string>("UsersId1");
+                    b.Property<string>("UsersId");
 
                     b.HasKey("ID");
 
                     b.HasIndex("AccountTypeID");
 
-                    b.HasIndex("UsersId1");
+                    b.HasIndex("UsersId");
 
                     b.ToTable("tbRegister_AccountTypes");
-                });
-
-            modelBuilder.Entity("VehicleRoutingProblem.Models.AccountViewModels.RegisterViewModel", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("Email");
-
-                    b.Property<string>("FristName")
-                        .IsRequired();
-
-                    b.Property<string>("LastName")
-                        .IsRequired();
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasMaxLength(100);
-
-                    b.Property<string>("PhoneNumber")
-                        .IsRequired();
-
-                    b.Property<string>("UserName")
-                        .IsRequired();
-
-                    b.HasKey("ID");
-
-                    b.ToTable("RegisterViewModel");
                 });
 
             modelBuilder.Entity("VehicleRoutingProblem.Models.AccountViewModels.UserLog", b =>
@@ -218,8 +198,6 @@ namespace VehicleRoutingProblem.Data.Migrations
 
                     b.HasKey("ID");
 
-                    b.HasIndex("RegisterViewModelID");
-
                     b.HasIndex("UsersId");
 
                     b.ToTable("tbUserLogs");
@@ -234,8 +212,7 @@ namespace VehicleRoutingProblem.Data.Migrations
 
                     b.Property<string>("Address");
 
-                    b.Property<int?>("CompanyInfoID")
-                        .IsRequired();
+                    b.Property<int>("CompanyInfoID");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -275,9 +252,9 @@ namespace VehicleRoutingProblem.Data.Migrations
 
                     b.Property<string>("SecurityStamp");
 
-                    b.Property<bool?>("SentEmail");
+                    b.Property<bool>("SentEmail");
 
-                    b.Property<bool?>("SentSMS");
+                    b.Property<bool>("SentSMS");
 
                     b.Property<bool>("TwoFactorEnabled");
 
@@ -300,6 +277,26 @@ namespace VehicleRoutingProblem.Data.Migrations
                         .HasName("UserNameIndex");
 
                     b.ToTable("AspNetUsers");
+                });
+
+            modelBuilder.Entity("VehicleRoutingProblem.Models.Roles", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole");
+
+
+                    b.ToTable("Roles");
+
+                    b.HasDiscriminator().HasValue("Roles");
+                });
+
+            modelBuilder.Entity("VehicleRoutingProblem.Models.UserRoles", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>");
+
+
+                    b.ToTable("UserRoles");
+
+                    b.HasDiscriminator().HasValue("UserRoles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
@@ -343,22 +340,16 @@ namespace VehicleRoutingProblem.Data.Migrations
                 {
                     b.HasOne("VehicleRoutingProblem.Models.AccountViewModels.AccountType", "AccountType")
                         .WithMany("Register_AccountType")
-                        .HasForeignKey("AccountTypeID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("AccountTypeID");
 
                     b.HasOne("VehicleRoutingProblem.Models.Users", "Users")
                         .WithMany("Register_AccountType")
-                        .HasForeignKey("UsersId1");
+                        .HasForeignKey("UsersId");
                 });
 
             modelBuilder.Entity("VehicleRoutingProblem.Models.AccountViewModels.UserLog", b =>
                 {
-                    b.HasOne("VehicleRoutingProblem.Models.AccountViewModels.RegisterViewModel", "RegisterViewModel")
-                        .WithMany()
-                        .HasForeignKey("RegisterViewModelID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("VehicleRoutingProblem.Models.Users")
+                    b.HasOne("VehicleRoutingProblem.Models.Users", "Users")
                         .WithMany("UserLog")
                         .HasForeignKey("UsersId");
                 });

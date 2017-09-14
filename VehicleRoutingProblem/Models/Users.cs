@@ -56,10 +56,7 @@ namespace VehicleRoutingProblem.Models
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "پسورد یکسان وارد نشده است")]
         public string ConfirmPassword { get; set; }
-
-        //*********
-        public ICollection<Register_AccountType> Register_AccountType { get; set; }
-        public ICollection<UserLog> UserLog { get; set; }
+        
         public CompanyInfo CompanyInfo { get; set; }
     }
 }

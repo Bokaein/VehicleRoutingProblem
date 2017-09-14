@@ -5,13 +5,12 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using VehicleRoutingProblem.Data;
 
-namespace VehicleRoutingProblem.Data.Migrations
+namespace VehicleRoutingProblem.Migrations
 {
     [DbContext(typeof(VRPDbContext))]
-    [Migration("20170913071608_MergeData3")]
-    partial class MergeData3
+    partial class VRPDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
@@ -24,6 +23,9 @@ namespace VehicleRoutingProblem.Data.Migrations
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
+
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
 
                     b.Property<string>("Name")
                         .HasMaxLength(256);
@@ -38,6 +40,8 @@ namespace VehicleRoutingProblem.Data.Migrations
                         .HasName("RoleNameIndex");
 
                     b.ToTable("AspNetRoles");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityRole");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
@@ -102,11 +106,16 @@ namespace VehicleRoutingProblem.Data.Migrations
 
                     b.Property<string>("RoleId");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
+
                     b.HasKey("UserId", "RoleId");
 
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUserRole<string>");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserToken<string>", b =>
@@ -122,18 +131,6 @@ namespace VehicleRoutingProblem.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
-                });
-
-            modelBuilder.Entity("VehicleRoutingProblem.Models.AccountViewModels.AccountType", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("TypeName");
-
-                    b.HasKey("ID");
-
-                    b.ToTable("tbAccountTypes");
                 });
 
             modelBuilder.Entity("VehicleRoutingProblem.Models.AccountViewModels.CompanyInfo", b =>
@@ -153,46 +150,6 @@ namespace VehicleRoutingProblem.Data.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("tbCompanyInfos");
-                });
-
-            modelBuilder.Entity("VehicleRoutingProblem.Models.AccountViewModels.Register_AccountType", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("AccountTypeID");
-
-                    b.Property<int>("UsersId");
-
-                    b.Property<string>("UsersId1");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("AccountTypeID");
-
-                    b.HasIndex("UsersId1");
-
-                    b.ToTable("tbRegister_AccountTypes");
-                });
-
-            modelBuilder.Entity("VehicleRoutingProblem.Models.AccountViewModels.UserLog", b =>
-                {
-                    b.Property<int>("ID")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<DateTime?>("LogIn");
-
-                    b.Property<DateTime?>("LogOut");
-
-                    b.Property<int>("RegisterViewModelID");
-
-                    b.Property<string>("UsersId");
-
-                    b.HasKey("ID");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("tbUserLogs");
                 });
 
             modelBuilder.Entity("VehicleRoutingProblem.Models.Users", b =>
@@ -271,6 +228,26 @@ namespace VehicleRoutingProblem.Data.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("VehicleRoutingProblem.Models.Roles", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole");
+
+
+                    b.ToTable("Roles");
+
+                    b.HasDiscriminator().HasValue("Roles");
+                });
+
+            modelBuilder.Entity("VehicleRoutingProblem.Models.UserRoles", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>");
+
+
+                    b.ToTable("UserRoles");
+
+                    b.HasDiscriminator().HasValue("UserRoles");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityRole")
@@ -306,25 +283,6 @@ namespace VehicleRoutingProblem.Data.Migrations
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("VehicleRoutingProblem.Models.AccountViewModels.Register_AccountType", b =>
-                {
-                    b.HasOne("VehicleRoutingProblem.Models.AccountViewModels.AccountType", "AccountType")
-                        .WithMany("Register_AccountType")
-                        .HasForeignKey("AccountTypeID")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("VehicleRoutingProblem.Models.Users", "Users")
-                        .WithMany("Register_AccountType")
-                        .HasForeignKey("UsersId1");
-                });
-
-            modelBuilder.Entity("VehicleRoutingProblem.Models.AccountViewModels.UserLog", b =>
-                {
-                    b.HasOne("VehicleRoutingProblem.Models.Users", "Users")
-                        .WithMany("UserLog")
-                        .HasForeignKey("UsersId");
                 });
 
             modelBuilder.Entity("VehicleRoutingProblem.Models.Users", b =>

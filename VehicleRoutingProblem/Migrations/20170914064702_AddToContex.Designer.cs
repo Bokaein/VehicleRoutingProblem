@@ -5,12 +5,13 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using VehicleRoutingProblem.Data;
 
-namespace VehicleRoutingProblem.Data.Migrations
+namespace VehicleRoutingProblem.Migrations
 {
     [DbContext(typeof(VRPDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170914064702_AddToContex")]
+    partial class AddToContex
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
@@ -161,15 +162,13 @@ namespace VehicleRoutingProblem.Data.Migrations
 
                     b.Property<int?>("AccountTypeID");
 
-                    b.Property<int?>("UsersId");
-
-                    b.Property<string>("UsersId1");
+                    b.Property<string>("UsersId");
 
                     b.HasKey("ID");
 
                     b.HasIndex("AccountTypeID");
 
-                    b.HasIndex("UsersId1");
+                    b.HasIndex("UsersId");
 
                     b.ToTable("tbRegister_AccountTypes");
                 });
@@ -315,7 +314,7 @@ namespace VehicleRoutingProblem.Data.Migrations
 
                     b.HasOne("VehicleRoutingProblem.Models.Users", "Users")
                         .WithMany("Register_AccountType")
-                        .HasForeignKey("UsersId1");
+                        .HasForeignKey("UsersId");
                 });
 
             modelBuilder.Entity("VehicleRoutingProblem.Models.AccountViewModels.UserLog", b =>
