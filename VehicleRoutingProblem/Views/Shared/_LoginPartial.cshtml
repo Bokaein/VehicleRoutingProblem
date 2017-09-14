@@ -7,12 +7,19 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
-        <ul class="nav navbar-nav navbar-right navbar-default">
+        <ul class="nav navbar-nav navbar-right ">
             <li>
-                <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+                @*با کلیک برروی لینک زیر باید به پروفایل شخصی وصل شود*@
+                <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">
+                @UserManager.GetUserAsync(User).Result.FristName @UserManager.GetUserAsync(User).Result.LastName 
+                خوش آمدی !
+                </a>
             </li>
             <li>
                 <button type="submit" class="btn btn-link navbar-btn navbar-link">Log out</button>
+            </li>
+            <li>
+                
             </li>
         </ul>
     </form>

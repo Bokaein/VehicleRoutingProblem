@@ -36,6 +36,7 @@ namespace VehicleRoutingProblem.Controllers
             )
         {
             _userManager = userManager;
+
             _signInManager = signInManager;
             _externalCookieScheme = identityCookieOptions.Value.ExternalCookieAuthenticationScheme;
             _emailSender = emailSender;
@@ -93,39 +94,11 @@ namespace VehicleRoutingProblem.Controllers
                 }
             }
             #endregion
-            //string EncryptPass = Encrypt(model.Password);
-            //var aa = await _Context.tbRegisters.Where(i => i.UserName == model.UserName && i.Password == EncryptPass).FirstOrDefaultAsync();
-            ////***اگر پیدا نکرد
-            //if (aa == null)
-            //{
-            //    return View(model);
-            //}
-
-            ////** اگر پیدا کرد
-            //UserLog log = new UserLog() { LogIn = DateTime.Now, RegisterViewModelID = aa.ID };
-            //_Context.tbUserLogs.Add(log);
-            //_Context.SaveChanges();
-            //return RedirectToLocal(returnUrl);
-
-            // If we got this far, something failed, redisplay form
+            
             return View(model);
 
         }
-
-        /// <summary>
-        /// پسورد را کد کرده جهت مقایه با پسورد موجود
-        /// </summary>
-        /// <param name="Pass"></param>
-        /// <returns></returns>
-        private string Encrypt(string Pass)
-        {
-            //*****
-            // قفل کردن پسورد
-            //؟؟؟ بعدا باید نوشته شود
-            //********
-            return Pass;
-        }
-
+        
         //
         // GET: /Account/Register
         [HttpGet]
