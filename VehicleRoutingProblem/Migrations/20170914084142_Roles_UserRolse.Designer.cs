@@ -8,8 +8,8 @@ using VehicleRoutingProblem.Data;
 namespace VehicleRoutingProblem.Migrations
 {
     [DbContext(typeof(VRPDbContext))]
-    [Migration("20170914075155_RefineDb")]
-    partial class RefineDb
+    [Migration("20170914084142_Roles_UserRolse")]
+    partial class Roles_UserRolse
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

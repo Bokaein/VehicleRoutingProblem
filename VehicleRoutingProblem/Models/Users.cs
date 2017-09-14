@@ -34,6 +34,15 @@ namespace VehicleRoutingProblem.Models
         [Display(Name = "نام خانوادگی")]
         public string LastName { get; set; }
 
+        [NotMapped]
+        public string FullName
+        {
+            get
+            {
+                return LastName + ", "+ FristName;
+            }
+        }
+
         [Display(Name = "عکس شخصی")]
         public byte[] Image { get; set; }
 

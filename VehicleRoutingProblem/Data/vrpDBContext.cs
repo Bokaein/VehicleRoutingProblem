@@ -30,7 +30,7 @@ namespace VehicleRoutingProblem.Data
         public DbSet<CompanyInfo> tbCompanyInfos { get; set; }
         public DbSet<VehicleRoutingProblem.Models.Roles> Roles { get; set; }
         public DbSet<VehicleRoutingProblem.Models.UserRoles> UserRoles { get; set; }
-        //public DbSet<VehicleRoutingProblem.Models.Users> Users { get; set; }
+        public DbSet<VehicleRoutingProblem.Models.Users> Users { get; set; }
         //public DbSet<VehicleRoutingProblem.Models.Roles> Roles { get; set; }
         //public DbSet<VehicleRoutingProblem.Models.UserRoles> UserRoles { get; set; }
     }
