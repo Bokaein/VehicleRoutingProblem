@@ -24,6 +24,7 @@ namespace VehicleRoutingProblem.Controllers
         {
             // Join with query expression.
 
+            
             var URs =await _context.Users.Join(_context.Roles,
                 a => a.Id,
                 b => b.Id,
@@ -66,29 +67,27 @@ namespace VehicleRoutingProblem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("UserId,RoleId")] UserRoles userRoles)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(userRoles);
-                await _context.SaveChangesAsync();
-                
+                if (ModelState.IsValid)
+                {
+                    _context.Add(userRoles);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction("Index", null);
+                }
+                ViewData["RoleID"] = new SelectList(_context.Roles, "Id", "Name");
+                ViewData["UserID"] = new SelectList(_context.Users, "Id", "FullName");
+                return View(userRoles);
             }
-
-
-             ur = new UserRoles();
-            ur.UserId = _context.Users.FirstOrDefault().Id;
-            ur.RoleId = _context.Roles.LastOrDefault().Id;
-            if (ModelState.IsValid)
+            catch (Exception e)
             {
-                _context.Add(ur);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
+               return NotFound(e);
+                throw;
             }
-
-
-            return View(userRoles);
+            
 
         }
-
+         
         // GET: UserRoles/Edit/5
         public async Task<IActionResult> Edit(string id)
         {
