@@ -24,12 +24,20 @@ namespace VehicleRoutingProblem.Controllers
         {
             // Join with query expression.
 
-            var URs =await _context.Users.Join(_context.Roles,
-                a => a.Id,
-                b => b.Id,
-                (a, b) => new Models.UserRoleViewModel.IndexViewModel { RolesName = a.LastName, UserName = b.Name }).ToListAsync();
+            //var URs =await _context.Users.Join(_context.Roles,
+            //    a => a.Id,
+            //    b => b.Id,
+            //    (a, b) => new Models.UserRoleViewModel.IndexViewModel { RolesName = a.LastName, UserName = b.Name }).ToListAsync();
 
-           return View(URs);
+            var URs = await _context.Users.Join(_context.UserRoles,
+               a => a.Id,
+               b => b.UserId,
+               (a, b) =>new {b,a}).Join(_context.Roles,
+               d=>d.b.RoleId,
+               f=>f.Id,
+               (d,f)=>new Models.UserRoleViewModel.IndexViewModel { RolesName = f.Name, UserName =d.a.LastName}).ToListAsync();
+
+            return View(URs);
         }
 
         // GET: UserRoles/Details/5
@@ -74,15 +82,6 @@ namespace VehicleRoutingProblem.Controllers
             }
 
 
-             ur = new UserRoles();
-            ur.UserId = _context.Users.FirstOrDefault().Id;
-            ur.RoleId = _context.Roles.LastOrDefault().Id;
-            if (ModelState.IsValid)
-            {
-                _context.Add(ur);
-                await _context.SaveChangesAsync();
-                return RedirectToAction("Index");
-            }
 
 
             return View(userRoles);
