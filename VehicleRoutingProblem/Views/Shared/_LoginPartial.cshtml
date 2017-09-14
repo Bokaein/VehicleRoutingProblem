@@ -18,9 +18,7 @@
             <li>
                 <button type="submit" class="btn btn-link navbar-btn navbar-link">Log out</button>
             </li>
-            <li>
-                
-            </li>
+            
         </ul>
     </form>
    
@@ -36,9 +34,11 @@ else
 {
     @*navbar-default*@
     <ul class="nav navbar-nav navbar-right ">
-        <li><a asp-area="" asp-controller="Account" asp-action="Register">Register</a></li>
+        @*<li><a asp-area="" asp-controller="Account" asp-action="Register">Register</a></li>*@
         <li><a asp-area="" asp-controller="Account" asp-action="Login">ورود</a></li>
         <li><a asp-area="" asp-controller="CompanyInfoes" asp-action="Index">شرکت‌های طرف قرار داد</a></li>
         <li><a asp-area="" asp-controller="Users" asp-action="Index">کاربران سامانه</a></li>
+        <li><a asp-area="" asp-controller="Roles" asp-action="Index">Roles</a></li>
+        <li><a asp-area="" asp-controller="UserRoles" asp-action="Index">UserRoles</a></li>
     </ul>
 }

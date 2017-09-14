@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace VehicleRoutingProblem.Migrations
 {
-    public partial class AddToContex : Migration
+    public partial class Roles_UserRolse : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -15,6 +15,7 @@ namespace VehicleRoutingProblem.Migrations
                 {
                     Id = table.Column<string>(nullable: false),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
+                    Discriminator = table.Column<string>(nullable: false),
                     Name = table.Column<string>(maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(maxLength: 256, nullable: true)
                 },
@@ -35,19 +36,6 @@ namespace VehicleRoutingProblem.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
-                });
-
-            migrationBuilder.CreateTable(
-                name: "tbAccountTypes",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    TypeName = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_tbAccountTypes", x => x.ID);
                 });
 
             migrationBuilder.CreateTable(
@@ -173,7 +161,8 @@ namespace VehicleRoutingProblem.Migrations
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
-                    RoleId = table.Column<string>(nullable: false)
+                    RoleId = table.Column<string>(nullable: false),
+                    Discriminator = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -190,54 +179,6 @@ namespace VehicleRoutingProblem.Migrations
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "tbRegister_AccountTypes",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    AccountTypeID = table.Column<int>(nullable: true),
-                    UsersId = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_tbRegister_AccountTypes", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_tbRegister_AccountTypes_tbAccountTypes_AccountTypeID",
-                        column: x => x.AccountTypeID,
-                        principalTable: "tbAccountTypes",
-                        principalColumn: "ID",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_tbRegister_AccountTypes_AspNetUsers_UsersId",
-                        column: x => x.UsersId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "tbUserLogs",
-                columns: table => new
-                {
-                    ID = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    LogIn = table.Column<DateTime>(nullable: true),
-                    LogOut = table.Column<DateTime>(nullable: true),
-                    RegisterViewModelID = table.Column<int>(nullable: false),
-                    UsersId = table.Column<string>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_tbUserLogs", x => x.ID);
-                    table.ForeignKey(
-                        name: "FK_tbUserLogs_AspNetUsers_UsersId",
-                        column: x => x.UsersId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -265,21 +206,6 @@ namespace VehicleRoutingProblem.Migrations
                 name: "IX_AspNetUserRoles_RoleId",
                 table: "AspNetUserRoles",
                 column: "RoleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_tbRegister_AccountTypes_AccountTypeID",
-                table: "tbRegister_AccountTypes",
-                column: "AccountTypeID");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_tbRegister_AccountTypes_UsersId",
-                table: "tbRegister_AccountTypes",
-                column: "UsersId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_tbUserLogs_UsersId",
-                table: "tbUserLogs",
-                column: "UsersId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetUsers_CompanyInfoID",
@@ -316,16 +242,7 @@ namespace VehicleRoutingProblem.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "tbRegister_AccountTypes");
-
-            migrationBuilder.DropTable(
-                name: "tbUserLogs");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
-                name: "tbAccountTypes");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

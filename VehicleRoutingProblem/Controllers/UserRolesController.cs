@@ -53,6 +53,9 @@ namespace VehicleRoutingProblem.Controllers
         // GET: UserRoles/Create
         public IActionResult Create()
         {
+            //ViewData["CompanyInfoID"] = new SelectList(_context.tbCompanyInfos, "ID", "CompanyName");
+            ViewData["RoleID"] = new SelectList(_context.Roles, "Id", "Name");
+            ViewData["UserID"] = new SelectList(_context.Users, "Id", "FullName");
             return View();
         }
 
@@ -63,19 +66,9 @@ namespace VehicleRoutingProblem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("UserId,RoleId")] UserRoles userRoles)
         {
-            //if (ModelState.IsValid)
-            //{
-            //    _context.Add(userRoles);
-            //    await _context.SaveChangesAsync();
-            //    return RedirectToAction("Index");
-            //}
-            //return View(userRoles);
-            var ur = new UserRoles();
-            ur.UserId = _context.Users.FirstOrDefault().Id;
-            ur.RoleId = _context.Roles.FirstOrDefault().Id;
             if (ModelState.IsValid)
             {
-                _context.Add(ur);
+                _context.Add(userRoles);
                 await _context.SaveChangesAsync();
                 
             }
@@ -93,6 +86,7 @@ namespace VehicleRoutingProblem.Controllers
 
 
             return View(userRoles);
+
         }
 
         // GET: UserRoles/Edit/5
