@@ -1,0 +1,153 @@
+@model VehicleRoutingProblem.Models.AccountViewModels.RegisterViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h2>Create</h2>
+
+<form asp-action="Create">
+    <div class="form-horizontal">
+        <h4>Users</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="form-group">
+            <label asp-for="FristName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="FristName" class="form-control" />
+                <span asp-validation-for="FristName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="LastName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="NationalCode" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="NationalCode" class="form-control" />
+                <span asp-validation-for="NationalCode" class="text-danger"></span>
+            </div>
+        </div>
+       
+        <div class="form-group">
+            <label asp-for="CompanyInfoID" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select asp-for="CompanyInfoID" class ="form-control" asp-items="ViewBag.CompanyInfoID"></select>
+            </div>
+        </div>
+     
+        <div class="form-group">
+            <label asp-for="PhoneNumber" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Email" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>
+       
+        <div class="form-group">
+            <label asp-for="SentEmail" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="SentEmail" class="form-control" />
+                <span asp-validation-for="SentEmail" class="text-danger"></span>
+            </div>
+        </div>
+     
+        <div class="form-group">
+            <label asp-for="SentSMS" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="SentSMS" class="form-control" />
+                <span asp-validation-for="SentSMS" class="text-danger"></span>
+            </div>
+        </div>
+      
+        <div class="form-group">
+            <label asp-for="UserName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+        </div>
+      
+        <div class="form-group">
+            <label asp-for="Password" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Password" class="form-control" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+        </div>
+       
+        <div class="form-group">
+            <label asp-for="ConfirmPassword" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="ConfirmPassword" class="form-control" />
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+        </div>
+      
+        @*<div class="form-group">
+            <label asp-for="SecurityStamp" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="SecurityStamp" class="form-control" />
+                <span asp-validation-for="SecurityStamp" class="text-danger"></span>
+            </div>
+        </div>*@
+       
+       
+      
+        @*<div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <div class="checkbox">
+                    <input asp-for="TwoFactorEnabled" />
+                    <label asp-for="TwoFactorEnabled"></label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="LockoutEnd" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="LockoutEnd" class="form-control" />
+                <span asp-validation-for="LockoutEnd" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <div class="checkbox">
+                    <input asp-for="LockoutEnabled" />
+                    <label asp-for="LockoutEnabled"></label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label asp-for="AccessFailedCount" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="AccessFailedCount" class="form-control" />
+                <span asp-validation-for="AccessFailedCount" class="text-danger"></span>
+            </div>
+        </div>*@
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

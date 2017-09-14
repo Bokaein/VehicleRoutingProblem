@@ -8,9 +8,10 @@ using VehicleRoutingProblem.Data;
 namespace VehicleRoutingProblem.Data.Migrations
 {
     [DbContext(typeof(VRPDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170913071608_MergeData3")]
+    partial class MergeData3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")
@@ -159,9 +160,9 @@ namespace VehicleRoutingProblem.Data.Migrations
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int?>("AccountTypeID");
+                    b.Property<int>("AccountTypeID");
 
-                    b.Property<int?>("UsersId");
+                    b.Property<int>("UsersId");
 
                     b.Property<string>("UsersId1");
 
@@ -311,7 +312,8 @@ namespace VehicleRoutingProblem.Data.Migrations
                 {
                     b.HasOne("VehicleRoutingProblem.Models.AccountViewModels.AccountType", "AccountType")
                         .WithMany("Register_AccountType")
-                        .HasForeignKey("AccountTypeID");
+                        .HasForeignKey("AccountTypeID")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("VehicleRoutingProblem.Models.Users", "Users")
                         .WithMany("Register_AccountType")

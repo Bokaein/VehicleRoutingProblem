@@ -31,5 +31,6 @@ namespace VehicleRoutingProblem.Data
         public DbSet<CompanyInfo> tbCompanyInfos { get; set; }
         public DbSet<Register_AccountType> tbRegister_AccountTypes { get; set; }
         public DbSet<UserLog> tbUserLogs { get; set; }
+        public DbSet<VehicleRoutingProblem.Models.Users> Users { get; set; }
     }
 }

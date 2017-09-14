@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using VehicleRoutingProblem.Models.AccountViewModels;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VehicleRoutingProblem.Models
 {
@@ -16,6 +17,7 @@ namespace VehicleRoutingProblem.Models
             if (CompanyInfoID == null)
                 CompanyInfo = null;
         }
+
         [Display(Name = "آدرس")]
         public string Address { get; set; }
 
@@ -33,15 +35,27 @@ namespace VehicleRoutingProblem.Models
         public string LastName { get; set; }
 
         [Display(Name = "عکس شخصی")]
-        public byte[] Image { get; set; }        
-        public int? CompanyInfoID { get; set; }
+        public byte[] Image { get; set; }
+
+        [Required]
+        [Display(Name = "نام شرکت")]
+        public int CompanyInfoID { get; set; }
 
         [Display(Name = "ارسال اطلاعات کاربری از طریق ایمیل")]
-        public bool? SentEmail { get; set; }
+        public bool SentEmail { get; set; }
         [Display(Name = "ارسال اطلاعات کاربری از طریق پیامک")]
-        public bool? SentSMS { get; set; }
+        public bool SentSMS { get; set; }
 
+        [NotMapped]
+        [Display(Name = "کلمه عبور")]
+        [DataType(DataType.Password)]
+        public string Password { get; set; }
 
+        [NotMapped]
+        [Display(Name = "تکرار کلمه عبور")]
+        [DataType(DataType.Password)]
+        [Compare("Password", ErrorMessage = "پسورد یکسان وارد نشده است")]
+        public string ConfirmPassword { get; set; }
 
         //*********
         public ICollection<Register_AccountType> Register_AccountType { get; set; }

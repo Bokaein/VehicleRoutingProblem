@@ -9,8 +9,8 @@ namespace VehicleRoutingProblem.Models.AccountViewModels
     {
         public int ID { get; set; }
 
-        public int AccountTypeID { get; set; }
-        public int UsersId { get; set; }
+        public int? AccountTypeID { get; set; }
+        public int? UsersId { get; set; }
 
         public Users Users { get; set; }
         public AccountType AccountType { get; set; }

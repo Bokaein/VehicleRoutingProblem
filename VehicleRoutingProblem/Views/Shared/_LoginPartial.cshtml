@@ -22,13 +22,16 @@
         <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
         <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
     </ol>
-    
-    
+
+
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right navbar-default">
+    @*navbar-default*@
+    <ul class="nav navbar-nav navbar-right ">
         <li><a asp-area="" asp-controller="Account" asp-action="Register">Register</a></li>
         <li><a asp-area="" asp-controller="Account" asp-action="Login">ورود</a></li>
+        <li><a asp-area="" asp-controller="CompanyInfoes" asp-action="Index">شرکت‌های طرف قرار داد</a></li>
+        <li><a asp-area="" asp-controller="Users" asp-action="Index">کاربران سامانه</a></li>
     </ul>
 }

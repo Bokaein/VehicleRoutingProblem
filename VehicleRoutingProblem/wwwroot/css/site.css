@@ -56,7 +56,7 @@ body {
 .body-content {
     padding-left: 15px;
     padding-right: 15px;
-    direction:rtl;
+    /*direction:rtl;*/
 }
 
 /* Set widths on the form inputs since otherwise they're 100% wide */
