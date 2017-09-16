@@ -74,17 +74,23 @@ namespace VehicleRoutingProblem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("UserId,RoleId")] UserRoles userRoles)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(userRoles);
-                await _context.SaveChangesAsync();
-                
+                if (ModelState.IsValid)
+                {
+                    _context.Add(userRoles);
+                    await _context.SaveChangesAsync();
+
+                }
+                ViewData["RoleID"] = new SelectList(_context.Roles, "Id", "Name");
+                ViewData["UserID"] = new SelectList(_context.Users, "Id", "FullName");
+                return View(userRoles);
             }
-
-
-
-
-            return View(userRoles);
+            catch (Exception)
+            {
+                return NotFound();
+            }
+            
 
         }
 
