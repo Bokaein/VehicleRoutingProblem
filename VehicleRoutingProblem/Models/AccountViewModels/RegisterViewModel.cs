@@ -59,8 +59,11 @@ namespace VehicleRoutingProblem.Models.AccountViewModels
 
         [Display(Name = "ارسال اطلاعات کاربری از طریق ایمیل")]
         public bool SentEmail { get; set; }
+
         [Display(Name = "ارسال اطلاعات کاربری از طریق پیامک")]
         public bool SentSMS { get; set; }
 
+        [Display(Name = "سمت کاربر")]
+        public ICollection<string> RoleID { get; set; }
     }
 }

@@ -67,7 +67,6 @@ namespace VehicleRoutingProblem.Controllers
                 .Include(u => u.CompanyInfo)
                 .SingleOrDefaultAsync(m => m.Id == id);
             ViewData["IDD"] = id;
-            //ViewBag["ID"] = id;
             RegisterViewModel Reg = new RegisterViewModel();
             Reg.CompanyInfoID = users.CompanyInfoID;
             Reg.Email = users.Email;
@@ -92,22 +91,7 @@ namespace VehicleRoutingProblem.Controllers
             return View();
         }
 
-        //// POST: Users/Create
-        //// To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        //// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Create([Bind("Address,NationalCode,FristName,LastName,Image,CompanyInfoID,SentEmail,SentSMS,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] Users users)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        _context.Add(users);
-        //        await _context.SaveChangesAsync();
-        //        return RedirectToAction("Index");
-        //    }
-        //    ViewData["CompanyInfoID"] = new SelectList(_context.tbCompanyInfos, "ID", "CompanyName", users.CompanyInfoID);
-        //    return View(users);
-        //}
+   
 
         // POST: Users/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
@@ -131,26 +115,7 @@ namespace VehicleRoutingProblem.Controllers
                 };
                 var result = await _userManager.CreateAsync(user, users.Password);
                 
-                //  var result = await _RoleManager.CreateAsync(user, users.Password);
-
-                //var RoleManager = new RoleManager<IdentityRole>(
-                //  new RoleStore<IdentityRole>(new MyDbContext()));
-                //var roleresult = RoleManager.Create(new IdentityRole(roleName));
-
-                //UserRoles ReigType = new UserRoles()
-                //{
-                //    UserId = user.Id,
-                //    RoleId ="sfdv"
-                //};
-
-
-
-                //_context.UserRoles.Add(ReigType);
-                //await _context.SaveChangesAsync();
-
-
-                //user.Register_AccountType.Add(new Register_AccountType() {Users = user });
-                //result = await _context.tbRegister_AccountTypes()
+             
                 if (result.Succeeded)
                 {
                     
