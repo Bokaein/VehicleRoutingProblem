@@ -7,37 +7,55 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VehicleRoutingProblem.Data;
 using VehicleRoutingProblem.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace VehicleRoutingProblem.Controllers
 {
     public class UserRolesController : Controller
     {
         private readonly VRPDbContext _context;
-
-        public UserRolesController(VRPDbContext context)
+        private readonly UserManager<Users> _userManager;
+        private readonly SignInManager<Users> _SignInManager;
+        public UserRolesController(VRPDbContext context,
+              UserManager<Users> userManager,
+            SignInManager<Users> SignInManager
+           /* ILogger logger*/)
         {
-            _context = context;    
+            _context = context;
+            _userManager = userManager;
+            _SignInManager = SignInManager;
         }
 
         // GET: UserRoles
         public async Task<IActionResult> Index()
         {
-            // Join with query expression.
+            try
+            {
+                if (_SignInManager.IsSignedIn(User))
+                {
+                    var loginUser = _userManager.GetUserAsync(HttpContext.User);
+                    var Users = await _context.Users.Where(i =>
+                    i.CompanyInfoID == loginUser.Result.CompanyInfoID &&
+                    i.Id != loginUser.Result.Id).ToListAsync();
+                    //return View(Users);
 
-            //var URs =await _context.Users.Join(_context.Roles,
-            //    a => a.Id,
-            //    b => b.Id,
-            //    (a, b) => new Models.UserRoleViewModel.IndexViewModel { RolesName = a.LastName, UserName = b.Name }).ToListAsync();
+                    var URs = await _context.Users.Where(q => q.CompanyInfoID == loginUser.Result.CompanyInfoID)
+                        .Join(_context.UserRoles,
+             a => a.Id,
+             b => b.UserId,
+             (a, b) => new { b, a }).Join(_context.Roles,
+             d => d.b.RoleId,
+             f => f.Id,
+             (d, f) => new Models.UserRoleViewModel.IndexViewModel { RolesName = f.Name, UserName = d.a.LastName, UserId = d.a.Id, RoleId = f.Id }).ToListAsync();
 
-            var URs = await _context.Users.Join(_context.UserRoles,
-               a => a.Id,
-               b => b.UserId,
-               (a, b) =>new {b,a}).Join(_context.Roles,
-               d=>d.b.RoleId,
-               f=>f.Id,
-               (d,f)=>new Models.UserRoleViewModel.IndexViewModel { RolesName = f.Name, UserName =d.a.LastName}).ToListAsync();
-
-            return View(URs);
+                    return View(URs);
+                }
+                return NotFound();
+            }
+            catch (Exception e)
+            {
+                return NotFound(e);
+            }
         }
 
         // GET: UserRoles/Details/5
@@ -79,18 +97,19 @@ namespace VehicleRoutingProblem.Controllers
                 if (ModelState.IsValid)
                 {
                     _context.Add(userRoles);
-                    await _context.SaveChangesAsync();
+                    var result = await _context.SaveChangesAsync();
+
 
                 }
                 ViewData["RoleID"] = new SelectList(_context.Roles, "Id", "Name");
                 ViewData["UserID"] = new SelectList(_context.Users, "Id", "FullName");
-                return View(userRoles);
+                //   return View(userRoles);
+                return RedirectToAction("Index", null);
             }
             catch (Exception)
             {
                 return NotFound();
             }
-            
 
         }
 

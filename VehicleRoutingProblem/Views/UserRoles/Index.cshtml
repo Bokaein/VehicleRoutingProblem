@@ -12,18 +12,28 @@
 <table class="table">
     <thead>
         <tr>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.RolesName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserName)
+            </th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.RolesName) |
-                @Html.DisplayFor(modelItem => item.UserName) |
-                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+
+                @Html.DisplayFor(modelItem => item.RolesName)
+            </td>
+            <td>
+             
+                @Html.ActionLink(item.UserName, "Details", "Users", new { id = item.UserId }, null)
+                
+            </td>
+            <td>
+                @Html.ActionLink("Delete", "Delete", new { UserId = item.UserId ,RoleId=item.RoleId})
             </td>
         </tr>
 }
