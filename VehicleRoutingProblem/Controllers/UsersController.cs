@@ -115,7 +115,6 @@ namespace VehicleRoutingProblem.Controllers
                 };
                 var result = await _userManager.CreateAsync(user, users.Password);
                 
-             
                 if (result.Succeeded)
                 {
                     
