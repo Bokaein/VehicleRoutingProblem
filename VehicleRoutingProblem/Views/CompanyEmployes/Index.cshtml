@@ -1,4 +1,4 @@
-@model IEnumerable<VehicleRoutingProblem.Models.Users>
+@model IEnumerable<VehicleRoutingProblem.Models.CompanyEmployeViewModels.IndexViewModel>
 
     @{
         ViewData["Title"] = "Employes";
@@ -12,10 +12,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FristName)
+                @Html.DisplayNameFor(model => model.LastName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                @Html.DisplayNameFor(model => model.FristName)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.NationalCode)
@@ -23,7 +23,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.Image)
             </th>
-
+            <th>
+                @Html.DisplayNameFor(model => model.lstRoles)
+            </th>
             <th></th>
         </tr>
     </thead>
@@ -32,10 +34,10 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.FristName)
+                    @Html.DisplayFor(modelItem => item.LastName)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.LastName)
+                    @Html.DisplayFor(modelItem => item.FristName)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.NationalCode)
@@ -43,6 +45,13 @@
 
                 <td>
                     @Html.DisplayFor(modelItem => item.Image)
+                </td>
+                <td>
+                    @foreach (var items in item.lstRoles.AsEnumerable())
+                    {
+                      @Html.DisplayFor(modelItem => items)
+                      <div> </div>
+                    }
                 </td>
                 <td>
                     <a asp-area ="UserRoles" asp-action="Edit" asp-route-id="@item.Id">Edit Role</a> |

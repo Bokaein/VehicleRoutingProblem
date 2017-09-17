@@ -8,9 +8,10 @@ using VehicleRoutingProblem.Data;
 namespace VehicleRoutingProblem.Migrations
 {
     [DbContext(typeof(VRPDbContext))]
-    partial class VRPDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170917081054_Roles_UserRolse2")]
+    partial class Roles_UserRolse2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.1")

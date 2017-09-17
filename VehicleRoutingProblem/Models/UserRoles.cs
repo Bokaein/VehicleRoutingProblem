@@ -11,6 +11,9 @@ namespace VehicleRoutingProblem.Models
 {
     public class UserRoles:IdentityUserRole<string>
     {
+        public Users Users { get; set; }
+        public Roles Roles { get; set; }
+
 
     }
 }

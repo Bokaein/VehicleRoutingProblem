@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using VehicleRoutingProblem.Models.AccountViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
+using VehicleRoutingProblem.Models.CompanyEmployeViewModels;
 
 namespace VehicleRoutingProblem.Controllers
 {
@@ -49,11 +50,53 @@ namespace VehicleRoutingProblem.Controllers
             {
                if(_SignInManager.IsSignedIn(User))
                 {
+                    #region join between 3 table : Users,Roles, UserRoles
                     var loginUser = _userManager.GetUserAsync(HttpContext.User);
-                    var Users = await _context.Users.Where(i => 
-                    i.CompanyInfoID == loginUser.Result.CompanyInfoID &&
-                    i.Id != loginUser.Result.Id).ToListAsync();
-                       return View( Users);
+                    var Users = await _context.Users
+                                              .Where(i =>
+                                                  i.CompanyInfoID == loginUser.Result.CompanyInfoID &&
+                                                  i.Id != loginUser.Result.Id)
+                                              .Join(_context.UserRoles, a => a.Id, b => b.UserId, (a, b) => new { b, a })
+                                              .Join(_context.Roles, d => d.b.RoleId, f => f.Id,
+                                                       (d, f) => new
+                                                       {
+                                                           RolesName = f.Name,
+                                                           LastName = d.a.LastName,
+                                                           FirstName = d.a.FristName,
+                                                           Id = d.a.Id,
+                                                           NationalCode = d.a.NationalCode,
+                                                           Image = d.a.Image
+                                                       }).ToListAsync();
+                    #endregion
+
+                    #region تهیه لیستی از داده‌ها جهت نمایش در ویو
+                    var UserGroup = Users.Select(i => new
+                    {
+                        FirstName = i.FirstName,
+                        LastName = i.LastName,
+                        Id = i.Id,
+                        Image = i.Image,
+                        NationalCode = i.NationalCode
+                    }).Distinct().ToList();
+
+                    List<IndexViewModel> lstUsers = new List<IndexViewModel>();
+                    foreach (var item in UserGroup.AsEnumerable())
+                    {
+                        IndexViewModel newItem = new IndexViewModel()
+                        {
+                            FristName = item.FirstName,
+                            LastName = item.LastName,
+                            Id = item.Id,
+                            Image = item.Image,
+                            NationalCode = item.NationalCode
+                        };
+                        newItem.lstRoles = Users.Where(i => i.Id == item.Id).Select(i => i.RolesName).ToList();
+
+                        lstUsers.Add(newItem);
+                    } 
+                    #endregion
+                    
+                    return View(lstUsers);
                 }
                 return NotFound();
             }
@@ -128,12 +171,15 @@ namespace VehicleRoutingProblem.Controllers
                 if (result.Succeeded)
                 {
                     //**** افزودن سطح دسترسی تعریف شده در نرم افزار
-                    UserRoles rol = new UserRoles()
+                    foreach (var item in users.RoleID)
                     {
-                        RoleId = users.RoleID.FirstOrDefault(),
-                        UserId = user.Id
-                    };
-                   _context.UserRoles.Add(rol);
+                        UserRoles rol = new UserRoles()
+                        {
+                            RoleId = item,
+                            UserId = user.Id
+                        };
+                        _context.UserRoles.Add(rol);
+                    }
                     await _context.SaveChangesAsync();
                     
 

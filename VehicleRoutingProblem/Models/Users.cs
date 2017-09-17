@@ -67,5 +67,7 @@ namespace VehicleRoutingProblem.Models
         public string ConfirmPassword { get; set; }
         
         public CompanyInfo CompanyInfo { get; set; }
+
+       // public ICollection<UserRoles> UserRoles { get; set; }
     }
 }
