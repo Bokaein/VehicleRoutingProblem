@@ -18,8 +18,7 @@ namespace VehicleRoutingProblem.Controllers
         private readonly SignInManager<Users> _SignInManager;
         public UserRolesController(VRPDbContext context,
               UserManager<Users> userManager,
-            SignInManager<Users> SignInManager
-           /* ILogger logger*/)
+            SignInManager<Users> SignInManager)
         {
             _context = context;
             _userManager = userManager;
@@ -27,7 +26,7 @@ namespace VehicleRoutingProblem.Controllers
         }
 
         // GET: UserRoles
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string Id)
         {
             try
             {
@@ -41,14 +40,18 @@ namespace VehicleRoutingProblem.Controllers
 
                     var URs = await _context.Users.Where(q => q.CompanyInfoID == loginUser.Result.CompanyInfoID)
                         .Join(_context.UserRoles,
-             a => a.Id,
-             b => b.UserId,
-             (a, b) => new { b, a }).Join(_context.Roles,
-             d => d.b.RoleId,
-             f => f.Id,
-             (d, f) => new Models.UserRoleViewModel.IndexViewModel { RolesName = f.Name, UserName = d.a.LastName, UserId = d.a.Id, RoleId = f.Id }).ToListAsync();
-
-                    return View(URs);
+                         a => a.Id,
+                         b => b.UserId,
+                         (a, b) => new { b, a }).Join(_context.Roles,
+                         d => d.b.RoleId,
+                         f => f.Id,
+                         (d, f) => new Models.UserRoleViewModel.IndexViewModel { RolesName = f.Name, LastName = d.a.LastName, FirstName = d.a.FristName,UserId = d.a.Id, RoleId = f.Id }).ToListAsync();
+                    if(Id == null)
+                      return View(URs);
+                    else
+                    {
+                        return View(URs.Where(i => i.UserId == Id).ToList());
+                    }
                 }
                 return NotFound();
             }
@@ -77,11 +80,23 @@ namespace VehicleRoutingProblem.Controllers
         }
 
         // GET: UserRoles/Create
-        public IActionResult Create()
+        public IActionResult Create(string Id)
         {
-            //ViewData["CompanyInfoID"] = new SelectList(_context.tbCompanyInfos, "ID", "CompanyName");
-            ViewData["RoleID"] = new SelectList(_context.Roles, "Id", "Name");
-            ViewData["UserID"] = new SelectList(_context.Users, "Id", "FullName");
+            var loginUser = _userManager.GetUserAsync(HttpContext.User);
+            ViewData["ID"] = Id;
+            if(Id == null)
+            {
+                ViewData["RoleID"] = new SelectList(_context.Roles, "Id", "Name");
+                ViewData["UserID"] = new SelectList(_context.Users.Where(i => i.CompanyInfoID == loginUser.Result.CompanyInfoID), "Id", "FullName");
+            }
+            else
+            {
+                var lstUser = _context.Users.Where(i => i.CompanyInfoID == loginUser.Result.CompanyInfoID && i.Id == Id);
+                var lstUserRol = _context.UserRoles.Where(i =>i.UserId == Id);
+                ViewData["RoleID"] = new SelectList(_context.Roles.Where(i=> !lstUserRol.Any(p=>p.RoleId == i.Id)), "Id", "Name");
+                ViewData["UserID"] = new SelectList(lstUser, "Id", "FullName");
+            }
+                
             return View();
         }
 
@@ -94,16 +109,28 @@ namespace VehicleRoutingProblem.Controllers
         {
             try
             {
+                var loginUser = _userManager.GetUserAsync(HttpContext.User);
                 if (ModelState.IsValid)
                 {
+                    if(userRoles.UserId == null)
+                    {
+                        return View();
+                    }
+                    if(userRoles.RoleId == null)
+                    {
+                        var lstUser = _context.Users.Where(i => i.CompanyInfoID == loginUser.Result.CompanyInfoID && i.Id == userRoles.UserId);
+                        var lstUserRol = _context.UserRoles.Where(i => i.UserId == userRoles.UserId);
+                        ViewData["UserID"] = new SelectList(lstUser, "Id", "FullName");
+                        return View();
+                    }
+                    
+
                     _context.Add(userRoles);
                     var result = await _context.SaveChangesAsync();
-
-
                 }
                 ViewData["RoleID"] = new SelectList(_context.Roles, "Id", "Name");
-                ViewData["UserID"] = new SelectList(_context.Users, "Id", "FullName");
-                //   return View(userRoles);
+                ViewData["UserID"] = new SelectList(_context.Users.Where(i => i.CompanyInfoID == loginUser.Result.CompanyInfoID), "Id", "FullName");
+
                 return RedirectToAction("Index", null);
             }
             catch (Exception)

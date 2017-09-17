@@ -11,10 +11,20 @@ namespace VehicleRoutingProblem.Models.UserRoleViewModel
     {
         [Display(Name = "سمت")]
         public string  RolesName { get; set; }
-        [Display(Name ="نام کاربر")]
-        public string UserName { get; set; }
 
-        
+
+        [Display(Name ="نام و نام خانوادگی")]
+        public string FullName
+        {
+            get { return LastName + ", " + FirstName; }
+        }
+
+        [Display(Name = "نام")]
+        public string FirstName { get; set; }
+
+        [Display(Name = "نام خانوادگی")]
+        public string LastName { get; set; }
+
         public string UserId{ get; set; }
         public string RoleId { get; set; }
 

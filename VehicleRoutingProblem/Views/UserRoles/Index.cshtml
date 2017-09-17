@@ -13,10 +13,10 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.RolesName)
+                @Html.DisplayNameFor(model => model.FullName)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.UserName)
+                @Html.DisplayNameFor(model => model.RolesName)
             </th>
         </tr>
     </thead>
@@ -24,16 +24,17 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-
-                @Html.DisplayFor(modelItem => item.RolesName)
-            </td>
-            <td>
-             
-                @Html.ActionLink(item.UserName, "Details", "Users", new { id = item.UserId }, null)
+                @Html.ActionLink(item.FullName, "Details", "Users", new { id = item.UserId }, null)
                 
             </td>
             <td>
+               @Html.DisplayFor(modelItem => item.RolesName)
+            </td>
+            <td>
                 @Html.ActionLink("Delete", "Delete", new { UserId = item.UserId ,RoleId=item.RoleId})
+            </td>
+            <td>
+                @Html.ActionLink("Add New Role", "Create", new { Id = item.UserId})
             </td>
         </tr>
 }
