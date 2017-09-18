@@ -41,7 +41,7 @@ namespace VehicleRoutingProblem.Controllers
 
         // GET: CompanyEmployes
         /// <summary>
-        /// لیست کاربران شرکت را نشان می‌دهد به جز خود کاربر
+        /// لیست کاربران شرکت به همراه سمت‌هایی که دارند را نشان می‌دهد به جز خود کاربر
         /// </summary>
         /// <returns></returns>
         public async Task<IActionResult> Index()
@@ -96,7 +96,7 @@ namespace VehicleRoutingProblem.Controllers
                     } 
                     #endregion
                     
-                    return View(lstUsers);
+                    return View(lstUsers.OrderBy(i => i.LastName));
                 }
                 return NotFound();
             }

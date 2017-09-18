@@ -39,7 +39,14 @@
                 <select asp-for="CompanyInfoID" class ="form-control" asp-items="ViewBag.CompanyInfoID"></select>
             </div>
         </div>
-     
+        <div class="form-group">
+            <label asp-for="RoleID" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <select type="multiple" asp-for="RoleID" class="form-control" asp-items="ViewBag.RoleID"></select>
+                @*<input type="checkbox" asp-for="RoleID" class="form-control" asp-items="ViewBag.RoleID"/>
+                multiple*@
+            </div>
+        </div>
         <div class="form-group">
             <label asp-for="PhoneNumber" class="col-md-2 control-label"></label>
             <div class="col-md-10">

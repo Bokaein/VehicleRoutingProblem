@@ -50,7 +50,7 @@ namespace VehicleRoutingProblem.Controllers
                       return View(URs);
                     else
                     {
-                        return View(URs.Where(i => i.UserId == Id).ToList());
+                        return View(URs.Where(i => i.UserId == Id).OrderBy(i=>i.FullName).ToList());
                     }
                 }
                 return NotFound();

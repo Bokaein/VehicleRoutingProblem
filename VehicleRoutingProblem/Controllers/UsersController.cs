@@ -44,12 +44,12 @@ namespace VehicleRoutingProblem.Controllers
             if(CompanyID == null)
             {
                 var vRPDbContext = _context.Users.Include(u => u.CompanyInfo);
-                return View(await vRPDbContext.ToListAsync());
+                return View(await vRPDbContext.OrderBy(i=>i.FullName).ToListAsync());
             }
             else
             {
                 var vRPDbContext = _context.Users.Include(u => u.CompanyInfo);
-                return View(await vRPDbContext.Where(i=>i.CompanyInfoID == CompanyID).ToListAsync());
+                return View(await vRPDbContext.Where(i=>i.CompanyInfoID == CompanyID).OrderBy(i => i.FullName).ToListAsync());
             }
         }
 
@@ -88,14 +88,18 @@ namespace VehicleRoutingProblem.Controllers
         public IActionResult Create()
         {
             ViewData["CompanyInfoID"] = new SelectList(_context.tbCompanyInfos, "ID", "CompanyName");
+            ViewData["RoleID"] = new SelectList(_context.Roles, "Id", "Name");
             return View();
         }
 
    
 
-        // POST: Users/Create
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
+        /// <summary>
+        /// جهت ایجاد مدیر جدید توسط شرکت بهپویان است
+        /// لذا سطح دسترسی طرف به اندازه مدیر خواهد بود
+        /// </summary>
+        /// <param name="users"></param>
+        /// <returns></returns>
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(RegisterViewModel users)
@@ -117,22 +121,28 @@ namespace VehicleRoutingProblem.Controllers
                 
                 if (result.Succeeded)
                 {
-                    
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=532713
-                    // Send an email with this link
-                    //var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                    //var callbackUrl = Url.Action(nameof(ConfirmEmail), "Account", new { userId = user.Id, code = code }, protocol: HttpContext.Request.Scheme);
-                    //await _emailSender.SendEmailAsync(model.Email, "Confirm your account",
-                    //    $"Please confirm your account by clicking this link: <a href='{callbackUrl}'>link</a>");
+
+                    //**** افزودن سطح دسترسی تعریف شده در نرم افزار
+                    foreach (var item in users.RoleID)
+                    {
+                        UserRoles rol = new UserRoles()
+                        {
+                            RoleId = item,
+                            UserId = user.Id
+                        };
+                        _context.UserRoles.Add(rol);
+                    }
+                    await _context.SaveChangesAsync();
 
                     //**** خط زیر خطا میداد فعلا حذف کردم
                     //await _signInManager.SignInAsync(user, isPersistent: false);
-                    
+
                     _logger.LogInformation(3, "User created a new account with password.");
                     return RedirectToAction("Index",null);
                 }
             }
             ViewData["CompanyInfoID"] = new SelectList(_context.tbCompanyInfos, "ID", "CompanyName", users.CompanyInfoID);
+            ViewData["RoleID"] = new SelectList(_context.Roles, "Id", "Name", users.RoleID);
             return View(users);
         }
 

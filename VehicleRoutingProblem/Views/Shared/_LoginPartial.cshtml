@@ -12,7 +12,7 @@
                 @*با کلیک برروی لینک زیر باید به پروفایل شخصی وصل شود*@
                 <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">
                 @UserManager.GetUserAsync(User).Result.FristName @UserManager.GetUserAsync(User).Result.LastName 
-                خوش آمدی !
+                خوش آمدی 
                 </a>
             </li>
             <li>
@@ -37,10 +37,10 @@ else
     @*navbar-default*@
     <ul class="nav navbar-nav navbar-right ">
         @*<li><a asp-area="" asp-controller="Account" asp-action="Register">Register</a></li>*@
-        <li><a asp-area="" asp-controller="Account" asp-action="Login">ورود</a></li>
-        <li><a asp-area="" asp-controller="CompanyInfoes" asp-action="Index">شرکت‌های طرف قرار داد</a></li>
-        <li><a asp-area="" asp-controller="Users" asp-action="Index">کاربران سامانه</a></li>
+        <li><a asp-area="" asp-controller="Account" asp-action="Login">Log In</a></li>
+        <li><a asp-area="" asp-controller="CompanyInfoes" asp-action="Index">All Companies</a></li>
+        <li><a asp-area="" asp-controller="Users" asp-action="Index">All Users</a></li>
         <li><a asp-area="" asp-controller="Roles" asp-action="Index">Roles</a></li>
-        <li><a asp-area="" asp-controller="UserRoles" asp-action="Index">UserRoles</a></li>
+        @*<li><a asp-area="" asp-controller="UserRoles" asp-action="Index">UserRoles</a></li>*@
     </ul>
 }
