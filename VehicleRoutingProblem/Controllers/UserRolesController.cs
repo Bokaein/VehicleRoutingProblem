@@ -192,15 +192,15 @@ namespace VehicleRoutingProblem.Controllers
         }
 
         // GET: UserRoles/Delete/5
-        public async Task<IActionResult> Delete(string id)
+        public async Task<IActionResult> Delete(string UserId,String RoleId)
         {
-            if (id == null)
+            if (UserId == null || UserId == RoleId)
             {
                 return NotFound();
             }
 
             var userRoles = await _context.UserRoles
-                .SingleOrDefaultAsync(m => m.UserId == id);
+                .SingleOrDefaultAsync(m => m.UserId == UserId && m.RoleId==RoleId);
             if (userRoles == null)
             {
                 return NotFound();
@@ -209,15 +209,15 @@ namespace VehicleRoutingProblem.Controllers
             return View(userRoles);
         }
 
-        // POST: UserRoles/Delete/5
+        //POST: UserRoles/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(string id)
+        public async Task<IActionResult> DeleteConfirmed([Bind("UserId,RoleId")] UserRoles userRoles)
         {
-            var userRoles = await _context.UserRoles.SingleOrDefaultAsync(m => m.UserId == id);
             _context.UserRoles.Remove(userRoles);
             await _context.SaveChangesAsync();
             return RedirectToAction("Index");
+
         }
 
         private bool UserRolesExists(string id)

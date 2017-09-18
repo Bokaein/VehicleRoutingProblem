@@ -11,11 +11,12 @@
     <h4>UserRoles</h4>
     <hr />
     <dl class="dl-horizontal">
-        <input type="hidden" asp-for="UserId" />
-        <input type="hidden" asp-for="RoleId" />
+    
     </dl>
     
     <form asp-action="Delete">
+         <input type="hidden" asp-for="UserId" />
+        <input type="hidden" asp-for="RoleId" />  
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
             <a asp-action="Index">Back to List</a>
