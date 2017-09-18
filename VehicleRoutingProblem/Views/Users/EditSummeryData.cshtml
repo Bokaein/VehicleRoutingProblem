@@ -1,0 +1,101 @@
+@model VehicleRoutingProblem.Models.Users
+
+@{
+    ViewData["Title"] = "EditSummeryData";
+}
+
+<h2>Edit Summery Data</h2>
+<form asp-action="Edit" asp-route-returnurl="@ViewData["ReturnUrl"]">
+    <div class="form-horizontal">
+        <h4>Users</h4>
+        <hr />
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Address" class="form-control" />
+        <input type="hidden" asp-for="SentEmail" class="form-control" />    
+        <input type="hidden" asp-for="SentSMS" class="form-control" />
+        <input type="hidden" asp-for="Id" />
+        <input type="hidden" asp-for="NormalizedUserName" class="form-control" />
+        <input type="hidden" asp-for="NormalizedEmail" class="form-control" />
+        <input type="hidden" asp-for="EmailConfirmed" />
+        <input type="hidden" asp-for="PasswordHash" class="form-control" />
+        <input type="hidden" asp-for="SecurityStamp" class="form-control" />
+        <input type="hidden" asp-for="ConcurrencyStamp" class="form-control" />
+        <input type="hidden" asp-for="PhoneNumberConfirmed" />
+        <input type="hidden" asp-for="TwoFactorEnabled" />
+        <input type="hidden" asp-for="LockoutEnd" class="form-control" />
+        <input type="hidden" asp-for="LockoutEnabled" />
+        <input type="hidden" asp-for="AccessFailedCount" class="form-control" />
+   
+      
+        <div class="form-group">
+            <label asp-for="FristName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="FristName" class="form-control" />
+                <span asp-validation-for="FristName" class="text-danger"></span>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label asp-for="LastName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="LastName" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+        </div>
+       
+        <div class="form-group">
+            <label asp-for="NationalCode" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="NationalCode" class="form-control" />
+                <span asp-validation-for="NationalCode" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Image" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Image" class="form-control" />
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+        </div>
+      
+        <div class="form-group">
+            <label asp-for="UserName" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="UserName" class="form-control" />
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+        </div>
+      
+        <div class="form-group">
+            <label asp-for="Email" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+        </div>
+       
+        <div class="form-group">
+            <label asp-for="PhoneNumber" class="col-md-2 control-label"></label>
+            <div class="col-md-10">
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+</form>
+
+
+@*<div>
+    <a asp-action="Index">Back to List</a>
+</div>*@
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -61,24 +61,7 @@ namespace VehicleRoutingProblem.Controllers
             }
         }
 
-        // GET: UserRoles/Details/5
-        public async Task<IActionResult> Details(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var userRoles = await _context.UserRoles
-                .SingleOrDefaultAsync(m => m.UserId == id);
-            if (userRoles == null)
-            {
-                return NotFound();
-            }
-
-            return View(userRoles);
-        }
-
+        
         // GET: UserRoles/Create
         public IActionResult Create(string Id)
         {
@@ -140,56 +123,7 @@ namespace VehicleRoutingProblem.Controllers
 
         }
 
-        // GET: UserRoles/Edit/5
-        public async Task<IActionResult> Edit(string id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var userRoles = await _context.UserRoles.SingleOrDefaultAsync(m => m.UserId == id);
-            if (userRoles == null)
-            {
-                return NotFound();
-            }
-            return View(userRoles);
-        }
-
-        // POST: UserRoles/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("UserId,RoleId")] UserRoles userRoles)
-        {
-            if (id != userRoles.UserId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(userRoles);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!UserRolesExists(userRoles.UserId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction("Index");
-            }
-            return View(userRoles);
-        }
+        
 
         // GET: UserRoles/Delete/5
         public async Task<IActionResult> Delete(string UserId,String RoleId)

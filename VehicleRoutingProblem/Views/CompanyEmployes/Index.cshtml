@@ -35,7 +35,7 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.LastName)
+                    @Html.ActionLink(item.LastName , "SummeryDetails", "Users", new { id = item.Id , returnUrl = "~/CompanyEmployes/Index" }, null)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.FristName)
@@ -56,7 +56,6 @@
                 </td>
                 <td>
                     <a asp-Controller ="UserRoles" asp-action="Index" asp-route-id="@item.Id">Edit Role</a> |
-                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
                     <a asp-action="Delete" asp-route-id="@item.Id">Delete Employe</a>
                 </td>
             </tr>

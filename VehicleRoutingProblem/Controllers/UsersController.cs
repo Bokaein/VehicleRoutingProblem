@@ -54,7 +54,12 @@ namespace VehicleRoutingProblem.Controllers
         }
 
         
-
+        /// <summary>
+        /// نمایش کامل مشخصات کاربر از جدول 
+        /// users
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         // GET: Users/Details/5
         public async Task<IActionResult> Details(string id)
         {
@@ -83,6 +88,47 @@ namespace VehicleRoutingProblem.Controllers
 
             return View(Reg);
         }
+
+        /// <summary>
+        /// نمایش خلاصه مشخصات کاربر از جدول 
+        /// users
+        /// از این جدول جهت نمایشی از خلاصه مشخصات کاربر در صفحات دیگر استفاده می کنیم برای این منظور از مدل
+        /// RegisterViewModel
+        /// استفاده کرده ایم
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        // GET: Users/Details/5
+        public async Task<IActionResult> SummeryDetails(string id,string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var users = await _context.Users
+                .Include(u => u.CompanyInfo)
+                .SingleOrDefaultAsync(m => m.Id == id);
+            //ViewData["IDD"] = id;
+            RegisterViewModel Reg = new RegisterViewModel();
+            Reg.Id = id;
+            Reg.CompanyInfoID = users.CompanyInfoID;
+            Reg.Email = users.Email;
+            Reg.FristName = users.FristName;
+            Reg.LastName = users.LastName;
+            Reg.NationalCode = users.NationalCode;
+            Reg.PhoneNumber = users.PhoneNumber;
+            Reg.UserName = users.UserName;
+
+            if (users == null)
+            {
+                return NotFound();
+            }
+
+            return View(Reg);
+        }
+
 
         // GET: Users/Create
         public IActionResult Create()
@@ -146,6 +192,24 @@ namespace VehicleRoutingProblem.Controllers
             return View(users);
         }
 
+        // GET: Users/Edit/5
+        public async Task<IActionResult> EditSummeryData(string id , string returnUrl = null)
+        {
+            ViewData["ReturnUrl"] = returnUrl;
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var users = await _context.Users.SingleOrDefaultAsync(m => m.Id == id);
+            if (users == null)
+            {
+                return NotFound();
+            }
+            ViewData["CompanyInfoID"] = new SelectList(_context.tbCompanyInfos, "ID", "CompanyName", users.CompanyInfoID);
+            return View(users);
+        }
+
 
         // GET: Users/Edit/5
         public async Task<IActionResult> Edit(string id)
@@ -169,8 +233,9 @@ namespace VehicleRoutingProblem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Address,NationalCode,FristName,LastName,Image,CompanyInfoID,SentEmail,SentSMS,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] Users users)
+        public async Task<IActionResult> Edit(string id, [Bind("Address,NationalCode,FristName,LastName,Image,CompanyInfoID,SentEmail,SentSMS,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] Users users , string returnUrl=null)
         {
+            ViewData["ReturnUrl"] = returnUrl;
             if (id != users.Id)
             {
                 return NotFound();
@@ -194,7 +259,8 @@ namespace VehicleRoutingProblem.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Index");
+                return RedirectToLocal(returnUrl);
+                   
             }
             ViewData["CompanyInfoID"] = new SelectList(_context.tbCompanyInfos, "ID", "CompanyName", users.CompanyInfoID);
             return View(users);
