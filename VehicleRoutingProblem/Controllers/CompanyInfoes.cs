@@ -57,10 +57,6 @@ namespace VehicleRoutingProblem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CompanyInfo CreatViewModel)
         {
-
-
-            
-
             if (CreatViewModel.file.Length > 0)
             {                
                 using (var memoryStream = new MemoryStream())
@@ -68,10 +64,7 @@ namespace VehicleRoutingProblem.Controllers
                     await CreatViewModel.file.CopyToAsync(memoryStream);
                     CreatViewModel.Icon = memoryStream.ToArray();
                 }
-
-
             }
-
 
             if (ModelState.IsValid)
             {
@@ -173,5 +166,19 @@ namespace VehicleRoutingProblem.Controllers
         {
             return _context.tbCompanyInfos.Any(e => e.ID == id);
         }
+        
+
+        public async Task<FileStreamResult> GetImage(int FileID)
+        {
+             var companyInfo = await _context.tbCompanyInfos
+               .SingleOrDefaultAsync(m => m.ID == FileID);
+            Stream stream = new MemoryStream(companyInfo.Icon);
+            return new FileStreamResult(stream, "image/jpg");
+        }
+
+       
+
+
+
     }
 }
