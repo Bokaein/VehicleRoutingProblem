@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VehicleRoutingProblem.Data;
-using VehicleRoutingProblem.Models.AccountViewModels;
+using VehicleRoutingProblem.Models;
+using System.IO;
 
 namespace VehicleRoutingProblem.Controllers
 {
@@ -54,15 +55,38 @@ namespace VehicleRoutingProblem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,CompanyName,Address,Icon,SiteUrl")] CompanyInfo companyInfo)
+        public async Task<IActionResult> Create(CompanyInfo CreatViewModel)
         {
+
+
+            
+
+            if (CreatViewModel.file.Length > 0)
+            {                
+                using (var memoryStream = new MemoryStream())
+                {
+                    await CreatViewModel.file.CopyToAsync(memoryStream);
+                    CreatViewModel.Icon = memoryStream.ToArray();
+                }
+
+
+            }
+
+
             if (ModelState.IsValid)
             {
-                _context.Add(companyInfo);
+                var cpInf = new CompanyInfo()
+                {
+                    CompanyName = CreatViewModel.CompanyName,
+                    Address=CreatViewModel.Address,
+                    SiteUrl=CreatViewModel.SiteUrl,
+                    Icon=CreatViewModel.Icon
+                };
+                _context.Add(cpInf);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(companyInfo);
+            return View(CreatViewModel);
         }
 
         // GET: CompanyInfoes/Edit/5

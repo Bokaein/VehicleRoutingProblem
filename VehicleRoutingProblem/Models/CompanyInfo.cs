@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace VehicleRoutingProblem.Models.AccountViewModels
+namespace VehicleRoutingProblem.Models
 {
     public class CompanyInfo
     {
@@ -26,6 +26,10 @@ namespace VehicleRoutingProblem.Models.AccountViewModels
 
         [Display(Name = "آدرس سایت شرکت")]
         public string SiteUrl { get; set; }
+
+        [NotMapped]
+        [Display(Name = "آیکن شرکت")]
+        public IFormFile file { get; set; }
         //******
         public ICollection<Users> Users { get; set; }
     }

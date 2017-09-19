@@ -1,4 +1,4 @@
-@model IEnumerable<VehicleRoutingProblem.Models.AccountViewModels.CompanyInfo>
+@model IEnumerable<VehicleRoutingProblem.Models.CompanyInfo>
 
 @{
     ViewData["Title"] = "Index";
@@ -19,7 +19,7 @@
                     @Html.DisplayNameFor(model => model.Address)
                 </th>
                 <th>
-                    @Html.DisplayNameFor(model => model.Icon)
+                    @*@Html.DisplayNameFor(model => model.Icon)*@
                 </th>
                 <th>
                     @Html.DisplayNameFor(model => model.SiteUrl)
@@ -37,7 +37,7 @@
                 @Html.DisplayFor(modelItem => item.Address)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Icon)
+                @*@Html.DisplayFor(modelItem => item.Icon)*@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.SiteUrl)
