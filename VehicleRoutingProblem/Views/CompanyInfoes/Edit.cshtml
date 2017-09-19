@@ -3,50 +3,54 @@
 @{
     ViewData["Title"] = "Edit";
 }
-
 <h2>Edit</h2>
 
-<form asp-action="Edit">
-    <div class="form-horizontal">
-        <h4>CompanyInfo</h4>
-        <hr />
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-    <input type="hidden" asp-for="ID" />
-        <div class="form-group">
-            <label asp-for="CompanyName" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="CompanyName" class="form-control" />
-                <span asp-validation-for="CompanyName" class="text-danger"></span>
+    <form method="post" asp-action="Edit" enctype="multipart/form-data">
+        <div class="form-horizontal">
+            <h4>CompanyInfo</h4>
+            <hr />
+            <div><img width="100" height="100"
+                      src="@Url.Action("GetImage", "CompanyInfoes", new {FileID=@Model.ID})" />
+            </div>                
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="ID" />
+            <div class="form-group">
+                <label asp-for="CompanyName" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="CompanyName" class="form-control" />
+                    <span asp-validation-for="CompanyName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Address" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="Address" class="form-control" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="Icon" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                   
+                    <input type="file" name="file" />
+                    <span asp-validation-for="file" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <label asp-for="SiteUrl" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="SiteUrl" class="form-control" />
+                    <span asp-validation-for="SiteUrl" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Save" class="btn btn-default" />
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            <label asp-for="Address" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Address" class="form-control" />
-                <span asp-validation-for="Address" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="Icon" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="Icon" class="form-control" />
-                <span asp-validation-for="Icon" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <label asp-for="SiteUrl" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="SiteUrl" class="form-control" />
-                <span asp-validation-for="SiteUrl" class="text-danger"></span>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-</form>
+    </form>
 
 <div>
     <a asp-action="Index">Back to List</a>

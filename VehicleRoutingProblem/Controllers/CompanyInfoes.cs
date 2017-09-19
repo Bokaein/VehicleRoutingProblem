@@ -55,27 +55,21 @@ namespace VehicleRoutingProblem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(CompanyInfo CreatViewModel)
+        public async Task<IActionResult> Create([Bind("ID,CompanyName,Address,SiteUrl,file")]CompanyInfo CreatViewModel)
         {
-            if (CreatViewModel.file.Length > 0)
-            {                
-                using (var memoryStream = new MemoryStream())
-                {
-                    await CreatViewModel.file.CopyToAsync(memoryStream);
-                    CreatViewModel.Icon = memoryStream.ToArray();
-                }
-            }
+           
 
             if (ModelState.IsValid)
             {
-                var cpInf = new CompanyInfo()
-                {
-                    CompanyName = CreatViewModel.CompanyName,
-                    Address=CreatViewModel.Address,
-                    SiteUrl=CreatViewModel.SiteUrl,
-                    Icon=CreatViewModel.Icon
-                };
-                _context.Add(cpInf);
+                    if (CreatViewModel.file.Length > 0)
+                {                
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await CreatViewModel.file.CopyToAsync(memoryStream);
+                        CreatViewModel.Icon = memoryStream.ToArray();
+                    }
+                }            
+                _context.Add(CreatViewModel);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
@@ -103,8 +97,11 @@ namespace VehicleRoutingProblem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,CompanyName,Address,Icon,SiteUrl")] CompanyInfo companyInfo)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,CompanyName,Address,SiteUrl,file")]CompanyInfo companyInfo)
         {
+           
+
+
             if (id != companyInfo.ID)
             {
                 return NotFound();
@@ -114,6 +111,15 @@ namespace VehicleRoutingProblem.Controllers
             {
                 try
                 {
+                    if (companyInfo.file.Length > 0)
+                    {
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            await companyInfo.file.CopyToAsync(memoryStream);
+                            companyInfo.Icon = memoryStream.ToArray();
+                        }
+                    }
+
                     _context.Update(companyInfo);
                     await _context.SaveChangesAsync();
                 }
