@@ -1,8 +1,10 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using VehicleRoutingProblem.Models
+@using VehicleRoutingProblem.Data
 
 @inject SignInManager<Users> SignInManager
 @inject UserManager<Users> UserManager
+@inject VRPDbContext _Context
 
 @if (SignInManager.IsSignedIn(User))
 {
@@ -11,26 +13,51 @@
             <li>
                 @*با کلیک برروی لینک زیر باید به پروفایل شخصی وصل شود*@
                 <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">
-                @UserManager.GetUserAsync(User).Result.FristName @UserManager.GetUserAsync(User).Result.LastName 
-                خوش آمدی 
+                    @UserManager.GetUserAsync(User).Result.FristName @UserManager.GetUserAsync(User).Result.LastName
+                    خوش آمدی
                 </a>
             </li>
             <li>
                 <button type="submit" class="btn btn-link navbar-btn navbar-link">Log out</button>
             </li>
-            
         </ul>
     </form>
-   
-    <ol class="nav navbar-nav ">
-        <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
-        <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
-        <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-        <li><a asp-area="" asp-controller="CompanyEmployes" asp-action="Index">Employes</a></li>
-        <li><a asp-area="" asp-controller="UserRoles" asp-action="Index">UserRoles</a></li>
-    </ol>
+  
 
+    var lstRol = _Context.UserRoles.Where(i => i.UserId == UserManager.GetUserAsync(User).Result.Id)
+                                            .Select(i => i.RoleId).ToList();
+    var lstRolName = _Context.Roles.Where(i => lstRol.Contains(i.Id)).Select(i => i.Name).ToList();
+    @if (lstRolName.Contains("مدیر سامانه"))
+            {
+                <ol class="nav navbar-nav ">
+            <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+            <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+            <li><a asp-area="" asp-controller="CompanyEmployes" asp-action="Index">Employes</a></li>
+            <li><a asp-area="" asp-controller="UserRoles" asp-action="Index">UserRoles</a></li>
+                </ol>
+    }
+    else if (lstRolName.Contains("توزیع‌کننده"))
+    {
+        <ol class="nav navbar-nav ">
+            <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
+            <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+            <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+        </ol>
+    }
+    else if (lstRolName.Contains("مشتری"))
+    {
+        <ol class="nav navbar-nav ">
+            <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
+        </ol>
 
+    }
+    else if (lstRolName.Contains("راننده"))
+    {
+        <ol class="nav navbar-nav ">
+            <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+        </ol>
+
+    }
 }
 else
 {
@@ -41,6 +68,7 @@ else
         <li><a asp-area="" asp-controller="CompanyInfoes" asp-action="Index">All Companies</a></li>
         <li><a asp-area="" asp-controller="Users" asp-action="Index">All Users</a></li>
         <li><a asp-area="" asp-controller="Roles" asp-action="Index">Roles</a></li>
+        
         @*<li><a asp-area="" asp-controller="UserRoles" asp-action="Index">UserRoles</a></li>*@
     </ul>
 }

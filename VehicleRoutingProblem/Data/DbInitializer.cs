@@ -30,7 +30,7 @@ namespace VehicleRoutingProblem.Data
                     new Roles(){Name = "مدیر سامانه"},
                     new Roles(){Name = "راننده"},
                     new Roles(){Name = "مشتری"},
-                    new Roles(){Name = "متقاضی"},
+                    new Roles(){Name = "توزیع‌کننده"},
                 };
                 foreach (Roles s in lstAccount)
                 {
