@@ -27,8 +27,9 @@ namespace VehicleRoutingProblem.Controllers
         }
 
         // GET: CompanyInfoes/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public async Task<IActionResult> Details(int? id, string returnUrl = null)
         {
+            ViewData["ReturnUrl"] = returnUrl;
             if (id == null)
             {
                 return NotFound();
@@ -75,8 +76,9 @@ namespace VehicleRoutingProblem.Controllers
         }
 
         // GET: CompanyInfoes/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, string returnUrl = null)
         {
+            ViewData["ReturnUrl"] = returnUrl;
             if (id == null)
             {
                 return NotFound();
@@ -95,8 +97,9 @@ namespace VehicleRoutingProblem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,CompanyName,Address,SiteUrl,file,Icon")]CompanyInfo companyInfo)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,CompanyName,Address,SiteUrl,file,Icon")]CompanyInfo companyInfo, string returnUrl = null)
         {
+            ViewData["ReturnUrl"] = returnUrl;
             if (id != companyInfo.ID)
             {
                 return NotFound();
@@ -129,7 +132,7 @@ namespace VehicleRoutingProblem.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction("Index");
+                return Redirect(returnUrl);
             }
             return View(companyInfo);
         }

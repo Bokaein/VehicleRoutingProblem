@@ -5,7 +5,7 @@
 }
 <h2>Edit</h2>
 
-    <form method="post" asp-action="Edit" enctype="multipart/form-data">
+    <form method="post" asp-action="Edit" asp-route-returnurl="@ViewData["ReturnUrl"]" enctype="multipart/form-data">
         <div class="form-horizontal">
             <h4>CompanyInfo</h4>
             <hr />
