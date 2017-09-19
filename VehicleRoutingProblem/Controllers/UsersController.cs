@@ -81,7 +81,7 @@ namespace VehicleRoutingProblem.Controllers
             Reg.NationalCode = users.NationalCode;
             Reg.PhoneNumber = users.PhoneNumber;
             Reg.UserName = users.UserName;
-            
+            Reg.Image = users.Image;
             if (users == null)
             {
                 return NotFound();
@@ -122,6 +122,7 @@ namespace VehicleRoutingProblem.Controllers
             Reg.PhoneNumber = users.PhoneNumber;
             Reg.UserName = users.UserName;
             Reg.Id = users.Id;
+            Reg.Image = users.Image;
             if (users == null)
             {
                 return NotFound();
@@ -224,8 +225,9 @@ namespace VehicleRoutingProblem.Controllers
 
 
         // GET: Users/Edit/5
-        public async Task<IActionResult> Edit(string id)
+        public async Task<IActionResult> Edit(string id, string returnUrl = null)
         {
+            ViewData["ReturnUrl"] = returnUrl;
             if (id == null)
             {
                 return NotFound();
@@ -245,7 +247,7 @@ namespace VehicleRoutingProblem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Address,NationalCode,FristName,LastName,Imagefile,CompanyInfoID,SentEmail,SentSMS,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] Users users)
+        public async Task<IActionResult> Edit(string id, [Bind("Address,NationalCode,FristName,LastName,Image,Imagefile,CompanyInfoID,SentEmail,SentSMS,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] Users users, string returnUrl = null)
         {
             ViewData["ReturnUrl"] = returnUrl;
             if (id != users.Id)
@@ -257,7 +259,7 @@ namespace VehicleRoutingProblem.Controllers
             {
                 try
                 {
-                    if (users.Imagefile.Length > 0)
+                    if (users.Imagefile != null && users.Imagefile.Length > 0)
                     {
                         using (var memoryStream = new MemoryStream())
                         {
@@ -333,6 +335,12 @@ namespace VehicleRoutingProblem.Controllers
             }
         }
 
+        /// <summary>
+        /// عکس که به صورت یک فایل بیتی تبدیل شده است را از پایگاه داده می‌خواند
+        /// و به یک عکس جهت نمایش تبدیل می‌کند
+        /// </summary>
+        /// <param name="FileID"></param>
+        /// <returns></returns>
         public async Task<FileStreamResult> GetImage(string FileID)
         {
             var UserInfo = await _context.Users

@@ -6,11 +6,12 @@
 
 <h2>Edit</h2>
 
-<form asp-action="Edit" enctype="multipart/form-data">
+<form asp-action="Edit" asp-route-returnurl="@ViewData["ReturnUrl"]" enctype="multipart/form-data">
     <div class="form-horizontal">
         <h4>Users</h4>
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="Image" />
         <div>
             <img width="100" height="100"
                  src="@Url.Action("GetImage", "Users", new {FileID=@Model.Id})" />

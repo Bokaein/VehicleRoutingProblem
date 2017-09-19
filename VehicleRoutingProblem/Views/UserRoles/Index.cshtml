@@ -13,6 +13,9 @@
     <thead>
         <tr>
             <th>
+               عکس پرسنلی
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.FullName)
             </th>
             <th>
@@ -23,6 +26,10 @@
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                <img width="50" height="50"
+                     src="@Url.Action("GetImage", "Users", new {FileID=@item.UserId})" />
+            </td>
             <td>
                 @Html.ActionLink(item.FullName, "SummeryDetails", "Users", new { id = item.UserId, returnUrl = "~/UserRoles/Index" }, null)
                 

@@ -13,6 +13,9 @@
     <thead>
         <tr>
             <th>
+                @Html.DisplayNameFor(model => model.Image)
+            </th>
+            <th>
                 @Html.DisplayNameFor(model => model.LastName)
             </th>
             <th>
@@ -21,9 +24,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.NationalCode)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Image)
-            </th>
+            
             <th>
                 @Html.DisplayNameFor(model => model.lstRoles)
             </th>
@@ -35,6 +36,11 @@
         {
             <tr>
                 <td>
+                    <img width="50" height="50"
+                         src="@Url.Action("GetImage", "Users", new {FileID=@item.Id})" />
+                    @*@Html.DisplayFor(modelItem => item.Icon)*@
+                </td>>
+                <td>
                     @Html.ActionLink(item.LastName , "SummeryDetails", "Users", new { id = item.Id , returnUrl = "~/CompanyEmployes/Index" }, null)
                 </td>
                 <td>
@@ -42,10 +48,6 @@
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.NationalCode)
-                </td>
-
-                <td>
-                    @Html.DisplayFor(modelItem => item.Image)
                 </td>
                 <td>
                     @foreach (var items in item.lstRoles.AsEnumerable())

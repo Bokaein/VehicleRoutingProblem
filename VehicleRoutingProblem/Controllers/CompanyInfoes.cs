@@ -59,16 +59,16 @@ namespace VehicleRoutingProblem.Controllers
         {
             if (ModelState.IsValid)
             {
-                if (CreatViewModel.file.Length > 0)
+                if (CreatViewModel.file!=null && CreatViewModel.file.Length > 0)
                 {                
                     using (var memoryStream = new MemoryStream())
                     {
                         await CreatViewModel.file.CopyToAsync(memoryStream);
                         CreatViewModel.Icon = memoryStream.ToArray();
                     }
-                    _context.Add(CreatViewModel);
-                    await _context.SaveChangesAsync();
-                }            
+                }
+                _context.Add(CreatViewModel);
+                await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
             return View(CreatViewModel);
@@ -95,11 +95,8 @@ namespace VehicleRoutingProblem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,CompanyName,Address,SiteUrl,file")]CompanyInfo companyInfo)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,CompanyName,Address,SiteUrl,file,Icon")]CompanyInfo companyInfo)
         {
-           
-
-
             if (id != companyInfo.ID)
             {
                 return NotFound();
@@ -109,18 +106,17 @@ namespace VehicleRoutingProblem.Controllers
             {
                 try
                 {
-                    if (companyInfo.file.Length > 0)
+                    if (companyInfo.file!=null && companyInfo.file.Length > 0)
                     {
                         using (var memoryStream = new MemoryStream())
                         {
                             await companyInfo.file.CopyToAsync(memoryStream);
                             companyInfo.Icon = memoryStream.ToArray();
                         }
-                        _context.Update(companyInfo);
-                        await _context.SaveChangesAsync();
                     }
+                    _context.Update(companyInfo);
+                    await _context.SaveChangesAsync();
 
-                   
                 }
                 catch (DbUpdateConcurrencyException)
                 {
