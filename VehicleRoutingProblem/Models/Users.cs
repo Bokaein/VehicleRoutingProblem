@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using VehicleRoutingProblem.Models.AccountViewModels;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using VehicleRoutingProblem.Models.Validation;
+using Microsoft.AspNetCore.Http;
 
 namespace VehicleRoutingProblem.Models
 {
@@ -43,8 +45,14 @@ namespace VehicleRoutingProblem.Models
             }
         }
 
-        [Display(Name = "عکس شخصی")]
+        [Display(Name = "عکس پرسنلی")]
         public byte[] Image { get; set; }
+
+        [NotMapped]
+        [Display(Name = "عکس پرسنلی")]
+        [FileSize(700240)]
+        [FileTypes("jpg")]
+        public IFormFile Imagefile { get; set; }
 
         [Required]
         [Display(Name = "نام شرکت")]
@@ -68,6 +76,6 @@ namespace VehicleRoutingProblem.Models
         
         public CompanyInfo CompanyInfo { get; set; }
 
-       // public ICollection<UserRoles> UserRoles { get; set; }
+       
     }
 }

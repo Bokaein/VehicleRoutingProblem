@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using VehicleRoutingProblem.Models.AccountViewModels;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using System.IO;
 
 namespace VehicleRoutingProblem.Controllers
 {
@@ -75,7 +76,7 @@ namespace VehicleRoutingProblem.Controllers
             Reg.NationalCode = users.NationalCode;
             Reg.PhoneNumber = users.PhoneNumber;
             Reg.UserName = users.UserName;
-            
+            Reg.Id = users.Id;
             if (users == null)
             {
                 return NotFound();
@@ -106,6 +107,16 @@ namespace VehicleRoutingProblem.Controllers
         {
             if (ModelState.IsValid)
             {
+
+                if (users.fileImage.Length > 0)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await users.fileImage.CopyToAsync(memoryStream);
+                        users.Image = memoryStream.ToArray();
+                    }
+                }
+                
                 var user = new Users {
                     UserName = users.UserName,
                     Email = users.Email,
@@ -115,7 +126,8 @@ namespace VehicleRoutingProblem.Controllers
                     PhoneNumber = users.PhoneNumber,
                     CompanyInfoID = users.CompanyInfoID,
                     SentEmail = users.SentEmail,
-                    SentSMS = users.SentSMS
+                    SentSMS = users.SentSMS,
+                    Image = users.Image
                 };
                 var result = await _userManager.CreateAsync(user, users.Password);
                 
@@ -169,7 +181,7 @@ namespace VehicleRoutingProblem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string id, [Bind("Address,NationalCode,FristName,LastName,Image,CompanyInfoID,SentEmail,SentSMS,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] Users users)
+        public async Task<IActionResult> Edit(string id, [Bind("Address,NationalCode,FristName,LastName,Imagefile,CompanyInfoID,SentEmail,SentSMS,Id,UserName,NormalizedUserName,Email,NormalizedEmail,EmailConfirmed,PasswordHash,SecurityStamp,ConcurrencyStamp,PhoneNumber,PhoneNumberConfirmed,TwoFactorEnabled,LockoutEnd,LockoutEnabled,AccessFailedCount")] Users users)
         {
             if (id != users.Id)
             {
@@ -180,6 +192,14 @@ namespace VehicleRoutingProblem.Controllers
             {
                 try
                 {
+                    if (users.Imagefile.Length > 0)
+                    {
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            await users.Imagefile.CopyToAsync(memoryStream);
+                            users.Image = memoryStream.ToArray();
+                        }
+                    }
                     _context.Update(users);
                     await _context.SaveChangesAsync();
                 }
@@ -245,6 +265,14 @@ namespace VehicleRoutingProblem.Controllers
             {
                 return RedirectToAction(nameof(HomeController.Index), "Home");
             }
+        }
+
+        public async Task<FileStreamResult> GetImage(string FileID)
+        {
+            var UserInfo = await _context.Users
+              .SingleOrDefaultAsync(m => m.Id == FileID);
+            Stream stream = new MemoryStream(UserInfo.Image);
+            return new FileStreamResult(stream, "image/jpg");
         }
 
     }

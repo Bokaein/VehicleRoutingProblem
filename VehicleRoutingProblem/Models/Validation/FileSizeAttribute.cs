@@ -26,7 +26,7 @@ namespace VehicleRoutingProblem.Models.Validation
 
             public override string FormatErrorMessage(string name)
             {
-                return string.Format("The file size should not exceed {0}", _maxSize);
+                return string.Format("The file size should not exceed {0} KB",(int)( _maxSize/1000));
             }
         }
 
