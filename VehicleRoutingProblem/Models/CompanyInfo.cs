@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using VehicleRoutingProblem.Models.Validation;
 
 namespace VehicleRoutingProblem.Models
 {
@@ -29,8 +30,13 @@ namespace VehicleRoutingProblem.Models
 
         [NotMapped]
         [Display(Name = "آیکن شرکت")]
+        [FileSize(700240)]
+        [FileTypes("jpg")]
         public IFormFile file { get; set; }
         //******
         public ICollection<Users> Users { get; set; }
     }
+
+
+    
 }

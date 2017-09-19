@@ -30,7 +30,7 @@
             <div class="col-md-10">
                 @*<input asp-for="Icon" class="form-control" />*@
                 <input type="file" name="file" />
-               
+                <span asp-validation-for="file" class="text-danger"></span>
             </div>
         </div>
         <div>
