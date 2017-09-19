@@ -1,4 +1,4 @@
-@model VehicleRoutingProblem.Models.AccountViewModels.CompanyInfo
+@model VehicleRoutingProblem.Models.CompanyInfo
 
 @{
     ViewData["Title"] = "Details";
@@ -11,6 +11,13 @@
     <hr />
     <dl class="dl-horizontal">
         <dt>
+            <img width="100" height="100"
+                 src="@Url.Action("GetImage", "CompanyInfoes", new {FileID=@Model.ID})" />
+        </dt>
+        <dd>
+        </dd>
+
+        <dt>
             @Html.DisplayNameFor(model => model.CompanyName)
         </dt>
         <dd>
@@ -21,12 +28,6 @@
         </dt>
         <dd>
             @Html.DisplayFor(model => model.Address)
-        </dd>
-        <dt>
-            @Html.DisplayNameFor(model => model.Icon)
-        </dt>
-        <dd>
-            @Html.DisplayFor(model => model.Icon)
         </dd>
         <dt>
             @Html.DisplayNameFor(model => model.SiteUrl)

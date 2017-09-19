@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using VehicleRoutingProblem.Data;
-using VehicleRoutingProblem.Models.AccountViewModels;
+using VehicleRoutingProblem.Models;
+using System.IO;
 
 namespace VehicleRoutingProblem.Controllers
 {
@@ -54,15 +55,23 @@ namespace VehicleRoutingProblem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,CompanyName,Address,Icon,SiteUrl")] CompanyInfo companyInfo)
+        public async Task<IActionResult> Create([Bind("ID,CompanyName,Address,SiteUrl,file")]CompanyInfo CreatViewModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(companyInfo);
-                await _context.SaveChangesAsync();
+                if (CreatViewModel.file.Length > 0)
+                {                
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await CreatViewModel.file.CopyToAsync(memoryStream);
+                        CreatViewModel.Icon = memoryStream.ToArray();
+                    }
+                    _context.Add(CreatViewModel);
+                    await _context.SaveChangesAsync();
+                }            
                 return RedirectToAction("Index");
             }
-            return View(companyInfo);
+            return View(CreatViewModel);
         }
 
         // GET: CompanyInfoes/Edit/5
@@ -86,8 +95,11 @@ namespace VehicleRoutingProblem.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,CompanyName,Address,Icon,SiteUrl")] CompanyInfo companyInfo)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,CompanyName,Address,SiteUrl,file")]CompanyInfo companyInfo)
         {
+           
+
+
             if (id != companyInfo.ID)
             {
                 return NotFound();
@@ -97,8 +109,18 @@ namespace VehicleRoutingProblem.Controllers
             {
                 try
                 {
-                    _context.Update(companyInfo);
-                    await _context.SaveChangesAsync();
+                    if (companyInfo.file.Length > 0)
+                    {
+                        using (var memoryStream = new MemoryStream())
+                        {
+                            await companyInfo.file.CopyToAsync(memoryStream);
+                            companyInfo.Icon = memoryStream.ToArray();
+                        }
+                        _context.Update(companyInfo);
+                        await _context.SaveChangesAsync();
+                    }
+
+                   
                 }
                 catch (DbUpdateConcurrencyException)
                 {
@@ -149,5 +171,19 @@ namespace VehicleRoutingProblem.Controllers
         {
             return _context.tbCompanyInfos.Any(e => e.ID == id);
         }
+        
+
+        public async Task<FileStreamResult> GetImage(int FileID)
+        {
+             var companyInfo = await _context.tbCompanyInfos
+               .SingleOrDefaultAsync(m => m.ID == FileID);
+            Stream stream = new MemoryStream(companyInfo.Icon);
+            return new FileStreamResult(stream, "image/jpg");
+        }
+
+       
+
+
+
     }
 }

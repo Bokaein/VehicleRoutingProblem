@@ -1,4 +1,4 @@
-@model VehicleRoutingProblem.Models.AccountViewModels.CompanyInfo
+@model VehicleRoutingProblem.Models.CompanyInfo
 
 @{
     ViewData["Title"] = "Create";
@@ -6,7 +6,7 @@
 
 <h2>Create</h2>
 
-<form asp-action="Create">
+<form method="post"  asp-action="Create" enctype="multipart/form-data">
     <div class="form-horizontal">
         <h4>CompanyInfo</h4>
         <hr />
@@ -28,9 +28,13 @@
         <div class="form-group">
             <label asp-for="Icon" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                <input asp-for="Icon" class="form-control" />
-                <span asp-validation-for="Icon" class="text-danger"></span>
+                @*<input asp-for="Icon" class="form-control" />*@
+                <input type="file" name="file" />
+                <span asp-validation-for="file" class="text-danger"></span>
             </div>
+        </div>
+        <div>
+          
         </div>
         <div class="form-group">
             <label asp-for="SiteUrl" class="col-md-2 control-label"></label>

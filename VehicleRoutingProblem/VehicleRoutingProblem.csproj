@@ -44,5 +44,8 @@
     <Folder Include="Migrations\" />
     <Folder Include="Views\CompanyEmployes\" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Models\Validation\FileSizeAttribute.cs" />
+  </ItemGroup>
 
 </Project>

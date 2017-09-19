@@ -1,4 +1,4 @@
-@model IEnumerable<VehicleRoutingProblem.Models.AccountViewModels.CompanyInfo>
+@model IEnumerable<VehicleRoutingProblem.Models.CompanyInfo>
 
 @{
     ViewData["Title"] = "Index";
@@ -37,7 +37,9 @@
                 @Html.DisplayFor(modelItem => item.Address)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Icon)
+                <img width="50" height="50"
+                     src="@Url.Action("GetImage", "CompanyInfoes", new {FileID=@item.ID})" />
+              @*@Html.DisplayFor(modelItem => item.Icon)*@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.SiteUrl)

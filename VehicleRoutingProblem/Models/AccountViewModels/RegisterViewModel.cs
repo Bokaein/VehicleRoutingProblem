@@ -1,9 +1,11 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using VehicleRoutingProblem.Models.Validation;
 
 namespace VehicleRoutingProblem.Models.AccountViewModels
 {
@@ -12,8 +14,17 @@ namespace VehicleRoutingProblem.Models.AccountViewModels
     /// </summary>
     public class RegisterViewModel
     {
-
         public string Id { get; set; }
+
+        [Display(Name = "آیکن شرکت")]
+        public byte[] Image { get; set; }
+        
+        [NotMapped]
+        [Display(Name = "آیکن شرکت")]
+        [FileSize(700240)]
+        [FileTypes("jpg")]
+        public IFormFile fileImage { get; set; }
+
 
         [Required]
         [Display(Name = "نام")]
