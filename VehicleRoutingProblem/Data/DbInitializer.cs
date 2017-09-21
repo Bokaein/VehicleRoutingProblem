@@ -9,9 +9,10 @@ namespace VehicleRoutingProblem.Data
 {
     public static class DbInitializer
     {
+        
         public static void CreatNewManager()
         {
-            //UserManager<Users> _userManager = new UserManager<Users>(null);
+            
             //var user = new Users { UserName = "Amir", Email = "am.bo740@gmail.com" };
             //var result = _userManager.CreateAsync(user, "123456");
 
@@ -23,6 +24,7 @@ namespace VehicleRoutingProblem.Data
 
             // Look for any students.
             //checks if there are any students in the database, and if not, it assumes the database is new and needs to be seeded with test data.
+            
             if (!context.Roles.Any())
             {
                 //افزودن انواع کاربران سیستم

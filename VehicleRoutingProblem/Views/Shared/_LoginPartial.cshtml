@@ -18,7 +18,7 @@
                 </a>
             </li>
             <li>
-                <button type="submit" class="btn btn-link navbar-btn navbar-link">Log out</button>
+                <input type="image" src="~/images/Logout.ico" width="50" height="50" alt="submit"  class="btn-link navbar-link">
             </li>
             <li>
                 <img width="50" height="50"
@@ -27,7 +27,23 @@
             
         </ul>
     </form>
-  
+    @if (UserManager.GetUserAsync(User).Result.UserName == "Behpooyan")
+    {
+        <ul class="nav navbar-nav  ">
+            <li><a asp-area="" asp-controller="CompanyInfoes" asp-action="Index">All Companies</a></li>
+            <li><a asp-area="" asp-controller="Users" asp-action="Index">All Users</a></li>
+            <li><a asp-area="" asp-controller="Roles" asp-action="Index">Roles</a></li>
+        </ul>
+        return;
+    }
+
+    <ol class="nav navbar-nav ">
+        <li>
+            <img width="50" height="50"
+                 src="@Url.Action("GetImage", "CompanyInfoes", new {FileID=@UserManager.GetUserAsync(User).Result.CompanyInfoID})" />
+        </li>
+    </ol>
+    
 
     var lstRol = _Context.UserRoles.Where(i => i.UserId == UserManager.GetUserAsync(User).Result.Id)
                                             .Select(i => i.RoleId).ToList();
@@ -35,10 +51,7 @@
     @if (lstRolName.Contains("مدیر سامانه"))
             {
                 <ol class="nav navbar-nav ">
-                    <li>
-                        <img width="50" height="50"
-                             src="@Url.Action("GetImage", "CompanyInfoes", new {FileID=@UserManager.GetUserAsync(User).Result.CompanyInfoID})" />
-                    </li>
+                   
             <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
             <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
             <li><a asp-area="" asp-controller="CompanyEmployes" asp-action="Index">Employes</a></li>
@@ -49,10 +62,6 @@
     else if (lstRolName.Contains("توزیع‌کننده"))
     {
         <ol class="nav navbar-nav ">
-            <li>
-                <img width="100" height="100"
-                     src="@Url.Action("GetImage", "CompanyInfoes", new {FileID=@UserManager.GetUserAsync(User).Result.CompanyInfoID})" />
-            </li>
             <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
             <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
             <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
@@ -61,10 +70,6 @@
     else if (lstRolName.Contains("مشتری"))
     {
         <ol class="nav navbar-nav ">
-            <li>
-                <img width="100" height="100"
-                     src="@Url.Action("GetImage", "CompanyInfoes", new {FileID=@UserManager.GetUserAsync(User).Result.CompanyInfoID})" />
-            </li>
             <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
         </ol>
 
@@ -81,12 +86,12 @@ else
 {
     @*navbar-default*@
     <ul class="nav navbar-nav navbar-right ">
-        @*<li><a asp-area="" asp-controller="Account" asp-action="Register">Register</a></li>*@
-        <li><a asp-area="" asp-controller="Account" asp-action="Login">Log In</a></li>
-        <li><a asp-area="" asp-controller="CompanyInfoes" asp-action="Index">All Companies</a></li>
-        <li><a asp-area="" asp-controller="Users" asp-action="Index">All Users</a></li>
-        <li><a asp-area="" asp-controller="Roles" asp-action="Index">Roles</a></li>
+        <li><a asp-area="" asp-controller="Account" asp-action="Login">Log In</a>
+        </li>
+        <li>
+            <img width="50" height="50" src="~/images/user-login.png" />
+        </li>
         
-        @*<li><a asp-area="" asp-controller="UserRoles" asp-action="Index">UserRoles</a></li>*@
+        @*<li><a asp-area="" asp-controller="Users" asp-action="Index">All Users</a></li>*@
     </ul>
 }

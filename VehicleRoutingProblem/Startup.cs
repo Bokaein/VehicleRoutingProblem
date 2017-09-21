@@ -50,11 +50,7 @@ namespace VehicleRoutingProblem
                 .AddEntityFrameworkStores<VRPDbContext>()
                 .AddDefaultTokenProviders();
 
-            //services.AddIdentity<Users, IdentityRole>(config =>
-            //{
-            //    config.SignIn.RequireConfirmedEmail = false;
-            //    config.
-            //});
+          
 
             // Configure Identity
             services.Configure<IdentityOptions>(options =>

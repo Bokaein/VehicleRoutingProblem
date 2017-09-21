@@ -16,11 +16,11 @@ namespace VehicleRoutingProblem.Models.AccountViewModels
     {
         public string Id { get; set; }
 
-        [Display(Name = "آیکن شرکت")]
+        [Display(Name = "عکس پرسنلی")]
         public byte[] Image { get; set; }
         
         [NotMapped]
-        [Display(Name = "آیکن شرکت")]
+        [Display(Name = "عکس پرسنلی")]
         [FileSize(700240)]
         [FileTypes("jpg")]
         public IFormFile fileImage { get; set; }
