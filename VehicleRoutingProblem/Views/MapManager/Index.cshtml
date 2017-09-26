@@ -1,0 +1,42 @@
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h2>Index</h2>
+
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.2.0/dist/leaflet.css"
+      integrity="sha512-M2wvCLH6DSRazYeZRIm1JnYyh22purTM+FDB5CsyxtQJYeKq83arPe5wgbNmcFXGqiSH2XR8dT/fJISVA1r/zQ=="
+      crossorigin=""
+      type="text/css"/>
+<style>
+    .mapid {
+        height: 400px;
+        width: 100%;
+    }
+</style>
+<script src="https://unpkg.com/leaflet@1.2.0/dist/leaflet.js"
+        integrity="sha512-lInM/apFSqyy1o6s89K4iQUKg6ppXEgsVxT35HbzUupEVRh2Eu9Wdl4tHj7dZO0s1uvplcYGmt3498TtHq+log=="
+        crossorigin=""></script>
+
+<title>LeafLet example</title>
+<h2>My Map</h2>
+
+<div id="mapid" class="mapid"></div>
+
+<script type="text/javascript">
+    var mymap = L.map('mapid').setView([36.301, 59.548], 13);
+  
+    //***اضافه کردن لایه
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors',
+    }).addTo(mymap);
+
+    //var map = L.map('mapid', {
+    //    center: [51.505, -0.09],
+    //    zoom: 13
+    //});
+
+    //*** افزودن مارکت به مختصات داده شده
+    var marker = L.marker([36.301, 59.548]).addTo(mymap);
+</script>
