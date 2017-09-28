@@ -74,7 +74,7 @@ namespace VehicleRoutingProblem.Controllers
                 .SingleOrDefaultAsync(m => m.Id == id);
             ViewData["IDD"] = id;
             RegisterViewModel Reg = new RegisterViewModel();
-            Reg.CompanyInfoID = users.CompanyInfoID;
+            Reg.CompanyInfoID = users.CompanyInfoID.Value;
             Reg.Email = users.Email;
             Reg.FristName = users.FristName;
             Reg.LastName = users.LastName;
@@ -114,7 +114,7 @@ namespace VehicleRoutingProblem.Controllers
             //ViewData["IDD"] = id;
             RegisterViewModel Reg = new RegisterViewModel();
             Reg.Id = id;
-            Reg.CompanyInfoID = users.CompanyInfoID;
+            Reg.CompanyInfoID = users.CompanyInfoID.Value;
             Reg.Email = users.Email;
             Reg.FristName = users.FristName;
             Reg.LastName = users.LastName;

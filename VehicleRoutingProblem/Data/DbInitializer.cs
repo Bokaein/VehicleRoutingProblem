@@ -41,33 +41,42 @@ namespace VehicleRoutingProblem.Data
                 }
                 context.SaveChanges();
             }
-
-            //افزودن کد مدیرسامانه جهت شرکت بهپویان
-            if (!context.tbCompanyInfos.Any())
-            {
-                CompanyInfo ComInfo = new CompanyInfo() { CompanyName = "بهپویان" ,SiteUrl = "www.Behpouyan.ir"};
-                context.tbCompanyInfos.Add(ComInfo);
-                Users Reg = new Users()
-                {
-                    Address = "پارک علم وفناوری",
-                    CompanyInfo = ComInfo,
-                    FristName = "Amir",
-                    LastName = "Bokaeyan",
-                    UserName = "am.bo740",
-                   // Password = "123456",
-                    Email = "am.bo740@gmail.com",
-                    NationalCode = "0920774768",
-                    PhoneNumber = "09155581868",
-                    PasswordHash = ""
-                    
-                };
-                context.Users.Add(Reg);
-
-
-                context.SaveChanges();
-            }
-
+            //if(!context.tbCompanyInfos.Any())
+            //{
+            //    var dd = new CompanyInfo()
+            //    {
+            //        CompanyName = "Admin"
+            //    };
+            //    context.tbCompanyInfos.Add(dd);
+            //    context.SaveChanges();
+            //}
             
+            //افزودن کد مدیرسامانه جهت شرکت بهپویان
+            //if (!context.tbCompanyInfos.Any())
+            //{
+            //    CompanyInfo ComInfo = new CompanyInfo() { CompanyName = "بهپویان" ,SiteUrl = "www.Behpouyan.ir"};
+            //    context.tbCompanyInfos.Add(ComInfo);
+            //    Users Reg = new Users()
+            //    {
+            //        Address = "پارک علم وفناوری",
+            //        CompanyInfo = ComInfo,
+            //        FristName = "Amir",
+            //        LastName = "Bokaeyan",
+            //        UserName = "am.bo740",
+            //       // Password = "123456",
+            //        Email = "am.bo740@gmail.com",
+            //        NationalCode = "0920774768",
+            //        PhoneNumber = "09155581868",
+            //        PasswordHash = ""
+
+            //    };
+            //    context.Users.Add(Reg);
+
+
+            //    context.SaveChanges();
+            //}
+
+
 
 
         }

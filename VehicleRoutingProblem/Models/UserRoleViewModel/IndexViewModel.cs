@@ -9,20 +9,20 @@ namespace VehicleRoutingProblem.Models.UserRoleViewModel
 {
     public class IndexViewModel
     {
-        [Display(Name = "سمت")]
+        [Display(Name = "Role Name")]
         public string  RolesName { get; set; }
 
 
-        [Display(Name ="نام و نام خانوادگی")]
+        [Display(Name ="Last Name / First Name")]
         public string FullName
         {
             get { return LastName + ", " + FirstName; }
         }
 
-        [Display(Name = "نام")]
+        [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
-        [Display(Name = "نام خانوادگی")]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
         public string UserId{ get; set; }

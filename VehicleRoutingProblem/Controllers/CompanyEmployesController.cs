@@ -12,6 +12,7 @@ using VehicleRoutingProblem.Models.AccountViewModels;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Extensions.Logging;
 using VehicleRoutingProblem.Models.CompanyEmployeViewModels;
+using System.IO;
 
 namespace VehicleRoutingProblem.Controllers
 {
@@ -70,15 +71,7 @@ namespace VehicleRoutingProblem.Controllers
                     #endregion
 
                     #region تهیه لیستی از داده‌ها جهت نمایش در ویو
-                    var UserGroup = Users.Select(i => new
-                    {
-                        FirstName = i.FirstName,
-                        LastName = i.LastName,
-                        Id = i.Id,
-                        Image = i.Image,
-                        NationalCode = i.NationalCode
-                    }).Distinct().ToList();
-
+                    var UserGroup = Users.GroupBy(i=>i.Id).Select(i =>i.FirstOrDefault()).ToList();
                     List<IndexViewModel> lstUsers = new List<IndexViewModel>();
                     foreach (var item in UserGroup.AsEnumerable())
                     {
@@ -120,7 +113,7 @@ namespace VehicleRoutingProblem.Controllers
                 .SingleOrDefaultAsync(m => m.Id == id);
             ViewData["IDD"] = id;
             RegisterViewModel Reg = new RegisterViewModel();
-            Reg.CompanyInfoID = users.CompanyInfoID;
+            Reg.CompanyInfoID = users.CompanyInfoID.Value;
             Reg.Email = users.Email;
             Reg.FristName = users.FristName;
             Reg.LastName = users.LastName;
@@ -151,6 +144,14 @@ namespace VehicleRoutingProblem.Controllers
             if (ModelState.IsValid)
             {
                 var loginUser = _userManager.GetUserAsync(HttpContext.User);
+                if (users.fileImage.Length > 0)
+                {
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await users.fileImage.CopyToAsync(memoryStream);
+                        users.Image = memoryStream.ToArray();
+                    }
+                }
                 var user = new Users
                 {
                     UserName = users.UserName,
@@ -159,7 +160,7 @@ namespace VehicleRoutingProblem.Controllers
                     LastName = users.LastName,
                     NationalCode = users.NationalCode,
                     PhoneNumber = users.PhoneNumber,
-
+                    Image = users.Image,
                     SentEmail = users.SentEmail,
                     SentSMS = users.SentSMS,
 

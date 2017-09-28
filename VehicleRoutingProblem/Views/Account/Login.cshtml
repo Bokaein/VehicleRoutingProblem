@@ -5,15 +5,15 @@
 @inject SignInManager<Users> SignInManager
 
 @{
-    ViewData["Title"] = "ورود به سامانه";
+    ViewData["Title"] = "Log In Page";
 }
 
-<h2>@ViewData["Title"].</h2>
+<h2>@ViewData["Title"]</h2>
 <div class="vrp row">
     <div class="col-md-8">
         <section>
             <form asp-controller="Account" asp-action="Login" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
-                <h4>ورود به حساب کاربری</h4>
+                <h4>Input your username and password.</h4>
                 <hr />
                 <div asp-validation-summary="All" class="text-danger"></div>
                 <div class="form-group">
@@ -42,7 +42,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-10">
-                        <button type="submit" class="btn btn-default">ورود</button>
+                        <button type="submit" class="btn btn-default">Input</button>
                     </div>
                 </div>
                 @*<p>

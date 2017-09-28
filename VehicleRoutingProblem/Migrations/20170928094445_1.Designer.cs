@@ -8,8 +8,8 @@ using VehicleRoutingProblem.Data;
 namespace VehicleRoutingProblem.Migrations
 {
     [DbContext(typeof(VRPDbContext))]
-    [Migration("20170917081054_Roles_UserRolse2")]
-    partial class Roles_UserRolse2
+    [Migration("20170928094445_1")]
+    partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -134,7 +134,7 @@ namespace VehicleRoutingProblem.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("VehicleRoutingProblem.Models.AccountViewModels.CompanyInfo", b =>
+            modelBuilder.Entity("VehicleRoutingProblem.Models.CompanyInfo", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
@@ -162,7 +162,8 @@ namespace VehicleRoutingProblem.Migrations
 
                     b.Property<string>("Address");
 
-                    b.Property<int>("CompanyInfoID");
+                    b.Property<int?>("CompanyInfoID")
+                        .IsRequired();
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -295,7 +296,7 @@ namespace VehicleRoutingProblem.Migrations
 
             modelBuilder.Entity("VehicleRoutingProblem.Models.Users", b =>
                 {
-                    b.HasOne("VehicleRoutingProblem.Models.AccountViewModels.CompanyInfo", "CompanyInfo")
+                    b.HasOne("VehicleRoutingProblem.Models.CompanyInfo", "CompanyInfo")
                         .WithMany("Users")
                         .HasForeignKey("CompanyInfoID")
                         .OnDelete(DeleteBehavior.Cascade);

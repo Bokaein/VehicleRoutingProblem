@@ -10,15 +10,15 @@ namespace VehicleRoutingProblem.Models.AccountViewModels
     {
         [Required]
         //[EmailAddress]
-        [Display(Name ="شناسه کاربری")]
+        [Display(Name = "UserName")]
         public string UserName { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
-        [Display(Name = "کلمه عبور")]
+        [Display(Name = "Password")]
         public string Password { get; set; }
 
-        [Display(Name = "من را به خاطر بسپار ؟")]
+        [Display(Name = "RememberMe ?")]
         public bool RememberMe { get; set; }
     }
 }

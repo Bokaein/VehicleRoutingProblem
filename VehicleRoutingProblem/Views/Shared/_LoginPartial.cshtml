@@ -8,24 +8,23 @@
 
 @if (SignInManager.IsSignedIn(User))
 {
+    @*class="navbar-right"*@
     <form asp-area="" asp-controller="Account" asp-action="Logout" method="post" id="logoutForm" class="navbar-right">
         <ul class="nav navbar-nav navbar-right ">
             <li>
                 @*با کلیک برروی لینک زیر باید به پروفایل شخصی وصل شود*@
-                <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage">
+                <a asp-area="" asp-controller="Manage" asp-action="Index" title="Manage" style="padding:0; margin-right:5px;">
                     @UserManager.GetUserAsync(User).Result.FristName @UserManager.GetUserAsync(User).Result.LastName
-                    خوش آمدی
+                    خوش آمدید
+                    <img width="50" height="50"  
+                         src="@Url.Action("GetImage", "Users", new {FileID=@UserManager.GetUserAsync(User).Result.Id})" />
                 </a>
             </li>
             <li>
-                <input type="image" src="~/images/Logout.ico" width="50" height="50" alt="submit"  class="btn-link navbar-link">
+                <input type="image" src="~/images/Logout.ico" width="50" height="50" alt="submit" class="btn-link navbar-link">
             </li>
-            <li>
-                <img width="50" height="50"
-                     src="@Url.Action("GetImage", "Users", new {FileID=@UserManager.GetUserAsync(User).Result.Id})" />
-            </li>
-            
         </ul>
+        
     </form>
     @if (UserManager.GetUserAsync(User).Result.UserName == "Behpooyan")
     {
@@ -38,10 +37,12 @@
     }
 
     <ol class="nav navbar-nav ">
+       
         <li>
             <img width="50" height="50"
                  src="@Url.Action("GetImage", "CompanyInfoes", new {FileID=@UserManager.GetUserAsync(User).Result.CompanyInfoID})" />
         </li>
+        <li><a asp-area="" asp-controller="Account" asp-action="Desktop">Desktop</a></li>
     </ol>
     
 
@@ -86,7 +87,7 @@ else
 {
     @*navbar-default*@
     <ul class="nav navbar-nav navbar-right ">
-        <li><a asp-area="" asp-controller="Account" asp-action="Login">Log In</a>
+        <li><a asp-area="" asp-controller="Account" asp-action="Login" asp-route-returnurl="~/Account/Desktop">Log In</a>
         </li>
         <li>
             <img width="50" height="50" src="~/images/user-login.png" />

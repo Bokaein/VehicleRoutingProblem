@@ -8,8 +8,8 @@ using VehicleRoutingProblem.Data;
 namespace VehicleRoutingProblem.Migrations
 {
     [DbContext(typeof(VRPDbContext))]
-    [Migration("20170914084142_Roles_UserRolse")]
-    partial class Roles_UserRolse
+    [Migration("20170928094048_newbuild")]
+    partial class newbuild
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -134,7 +134,7 @@ namespace VehicleRoutingProblem.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("VehicleRoutingProblem.Models.AccountViewModels.CompanyInfo", b =>
+            modelBuilder.Entity("VehicleRoutingProblem.Models.CompanyInfo", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd();
@@ -162,7 +162,8 @@ namespace VehicleRoutingProblem.Migrations
 
                     b.Property<string>("Address");
 
-                    b.Property<int>("CompanyInfoID");
+                    b.Property<int?>("CompanyInfoID")
+                        .IsRequired();
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -243,6 +244,13 @@ namespace VehicleRoutingProblem.Migrations
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.EntityFrameworkCore.IdentityUserRole<string>");
 
+                    b.Property<string>("RolesId1");
+
+                    b.Property<string>("UsersId1");
+
+                    b.HasIndex("RolesId1");
+
+                    b.HasIndex("UsersId1");
 
                     b.ToTable("UserRoles");
 
@@ -288,10 +296,21 @@ namespace VehicleRoutingProblem.Migrations
 
             modelBuilder.Entity("VehicleRoutingProblem.Models.Users", b =>
                 {
-                    b.HasOne("VehicleRoutingProblem.Models.AccountViewModels.CompanyInfo", "CompanyInfo")
+                    b.HasOne("VehicleRoutingProblem.Models.CompanyInfo", "CompanyInfo")
                         .WithMany("Users")
                         .HasForeignKey("CompanyInfoID")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("VehicleRoutingProblem.Models.UserRoles", b =>
+                {
+                    b.HasOne("VehicleRoutingProblem.Models.Roles", "Roles")
+                        .WithMany()
+                        .HasForeignKey("RolesId1");
+
+                    b.HasOne("VehicleRoutingProblem.Models.Users", "Users")
+                        .WithMany()
+                        .HasForeignKey("UsersId1");
                 });
         }
     }

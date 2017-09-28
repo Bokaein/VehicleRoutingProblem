@@ -132,6 +132,11 @@ namespace VehicleRoutingProblem.Controllers
                         throw;
                     }
                 }
+                if(returnUrl==null)
+                {
+                    Redirect("Index");
+                }
+                else
                 return Redirect(returnUrl);
             }
             return View(companyInfo);

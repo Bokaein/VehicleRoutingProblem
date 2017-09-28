@@ -10,19 +10,19 @@ namespace VehicleRoutingProblem.Models.CompanyEmployeViewModels
     public class IndexViewModel
     {
         public string Id { get; set; }
-        [Display(Name = "نام")]
+        [Display(Name = "Frist Name")]
         public string FristName { get; set; }
 
         
-        [Display(Name = "نام خانوادگی")]
+        [Display(Name = "Last Name")]
         public string LastName { get; set; }
 
         
-        [Display(Name = "کد ملی")]
+        [Display(Name = "National Code")]
         public string NationalCode { get; set; }
 
 
-        [Display(Name = "عکس شخصی")]
+        [Display(Name = "Image")]
         public byte[] Image { get; set; }
 
         [Display(Name = "Roles")]

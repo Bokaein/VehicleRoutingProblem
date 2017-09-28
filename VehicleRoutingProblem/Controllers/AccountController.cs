@@ -25,14 +25,16 @@ namespace VehicleRoutingProblem.Controllers
         private readonly ISmsSender _smsSender;
         private readonly ILogger _logger;
         private readonly string _externalCookieScheme;
-       
+        private readonly VRPDbContext _context;
         public AccountController(
             UserManager<Users> userManager,
             SignInManager<Users> signInManager,
             IOptions<IdentityCookieOptions> identityCookieOptions,
             IEmailSender emailSender,
             ISmsSender smsSender,
-            ILoggerFactory loggerFactory
+            ILoggerFactory loggerFactory,
+            VRPDbContext context
+
             )
         {
             _userManager = userManager;
@@ -42,7 +44,7 @@ namespace VehicleRoutingProblem.Controllers
             _emailSender = emailSender;
             _smsSender = smsSender;
             _logger = loggerFactory.CreateLogger<AccountController>();
-           
+            _context = context;
         }
 
         //
@@ -54,6 +56,14 @@ namespace VehicleRoutingProblem.Controllers
             // Clear the existing external cookie to ensure a clean login process
             await HttpContext.Authentication.SignOutAsync(_externalCookieScheme);
 
+            //**Check for Existing User, If we have not any account. we first Creat a account for Behpooyan
+            if(_context.Users.Any()==false)
+            {
+                var user = new Users { UserName = "Behpooyan", FristName = "Company",LastName = "Behpooyan",NationalCode = "0920774768" };
+                var result = await _userManager.CreateAsync(user, "123456");
+            }
+
+            
             ViewData["ReturnUrl"] = returnUrl;
             return View();
         }
@@ -67,7 +77,7 @@ namespace VehicleRoutingProblem.Controllers
         {
             ViewData["ReturnUrl"] = returnUrl;
 
-            #region این کد قبلی خودش بوده واصلا نفهمیدم چه می کند حذفش کردم وخودم نوشتم
+            #region این کد قبلی خودش بوده و مربوط به ورود کاربر
             if (ModelState.IsValid)
             {
                 // This doesn't count login failures towards account lockout
@@ -460,6 +470,13 @@ namespace VehicleRoutingProblem.Controllers
         {
             return View();
         }
+
+        [HttpGet]
+        public IActionResult Desktop()
+        {
+            return View();
+        }
+
 
         #region Helpers
 

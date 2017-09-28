@@ -16,20 +16,20 @@ namespace VehicleRoutingProblem.Models
         public int ID { get; set; }
 
         [Required]
-        [Display(Name ="نام شرکت")]
+        [Display(Name = "Company Name")]
         public string CompanyName { get; set; }
         
-        [Display(Name = "آدرس شرکت")]
+        [Display(Name = "Address")]
         public string Address { get; set; }
 
-        [Display(Name = "آیکن شرکت")]
+        [Display(Name = "Icon")]
         public byte[] Icon { get; set; }
 
-        [Display(Name = "آدرس سایت شرکت")]
+        [Display(Name = "Site Url")]
         public string SiteUrl { get; set; }
 
         [NotMapped]
-        [Display(Name = "آیکن شرکت")]
+        [Display(Name = "Icon")]
         [FileSize(700240)]
         [FileTypes("jpg")]
         public IFormFile file { get; set; }

@@ -45,11 +45,21 @@ namespace VehicleRoutingProblem.Controllers
                          (a, b) => new { b, a }).Join(_context.Roles,
                          d => d.b.RoleId,
                          f => f.Id,
-                         (d, f) => new Models.UserRoleViewModel.IndexViewModel { RolesName = f.Name, LastName = d.a.LastName, FirstName = d.a.FristName,UserId = d.a.Id, RoleId = f.Id }).ToListAsync();
+                         (d, f) => new Models.UserRoleViewModel.IndexViewModel
+                                                      { RolesName = f.Name,
+                                                        LastName = d.a.LastName,
+                                                       FirstName = d.a.FristName,
+                                                       UserId = d.a.Id,
+                                                       RoleId = f.Id }).OrderBy(i=>i.FullName).ToListAsync();
                     if(Id == null)
-                      return View(URs);
+                    {
+                        ViewData["ShowCreat"] = true;
+                        return View(URs);
+                    }
                     else
                     {
+                        ViewData["ID"] = Id;
+                        ViewData["ShowCreat"] = false;
                         return View(URs.Where(i => i.UserId == Id).OrderBy(i=>i.FullName).ToList());
                     }
                 }
@@ -116,9 +126,13 @@ namespace VehicleRoutingProblem.Controllers
 
                 return RedirectToAction("Index", null);
             }
-            catch (Exception)
+            catch(DbUpdateException ee)
             {
-                return NotFound();
+                return NotFound("Can not Creat Doblicate Role for one person");
+            }
+            catch (Exception e)
+            {
+                return NotFound(e);
             }
 
         }
