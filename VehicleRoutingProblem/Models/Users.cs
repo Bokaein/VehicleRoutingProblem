@@ -8,6 +8,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using VehicleRoutingProblem.Models.Validation;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace VehicleRoutingProblem.Models
 {

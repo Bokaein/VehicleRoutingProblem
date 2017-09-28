@@ -8,7 +8,7 @@ using VehicleRoutingProblem.Data;
 namespace VehicleRoutingProblem.Migrations
 {
     [DbContext(typeof(VRPDbContext))]
-    [Migration("20170928094445_1")]
+    [Migration("20170928101410_1")]
     partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
