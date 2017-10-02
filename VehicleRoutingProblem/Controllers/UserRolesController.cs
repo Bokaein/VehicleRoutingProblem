@@ -128,7 +128,7 @@ namespace VehicleRoutingProblem.Controllers
             }
             catch(DbUpdateException ee)
             {
-                return NotFound("Can not Creat Doblicate Role for one person");
+                return NotFound("Can not Creat Duplicate Role for one person");
             }
             catch (Exception e)
             {
