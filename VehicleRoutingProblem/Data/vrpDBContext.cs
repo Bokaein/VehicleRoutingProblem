@@ -26,6 +26,9 @@ namespace VehicleRoutingProblem.Data
             builder.Entity<Models.Users>()
                 .HasAlternateKey(c => new { c.UserName, c.CompanyInfoID })
                 .HasName("uniqe_UserNameAndCompany");
+            //*** در این قسمت کلید خارجی به جدول کمپانی‌ها اصلاح شده که بتواند 
+            //null
+            // بگیرد
             builder.Entity<Users>()
                 .HasOne(p => p.CompanyInfo)
                 .WithMany(b => b.Users)
