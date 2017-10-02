@@ -82,7 +82,7 @@ namespace VehicleRoutingProblem.Migrations
                     Id = table.Column<string>(nullable: false),
                     AccessFailedCount = table.Column<int>(nullable: false),
                     Address = table.Column<string>(nullable: true),
-                    CompanyInfoID = table.Column<int>(nullable: false),
+                    CompanyInfoID = table.Column<int>(nullable: true),
                     ConcurrencyStamp = table.Column<string>(nullable: true),
                     Email = table.Column<string>(maxLength: 256, nullable: true),
                     EmailConfirmed = table.Column<bool>(nullable: false),
@@ -101,18 +101,17 @@ namespace VehicleRoutingProblem.Migrations
                     SentEmail = table.Column<bool>(nullable: false),
                     SentSMS = table.Column<bool>(nullable: false),
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
-                    UserName = table.Column<string>(maxLength: 256, nullable: false)
+                    UserName = table.Column<string>(maxLength: 256, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
-                    table.UniqueConstraint("uniqe_UserNameAndCompany", x => new { x.UserName, x.CompanyInfoID });
                     table.ForeignKey(
-                        name: "FK_AspNetUsers_tbCompanyInfos_CompanyInfoID",
+                        name: "ForeignKey_Users_CompanyInfo",
                         column: x => x.CompanyInfoID,
                         principalTable: "tbCompanyInfos",
                         principalColumn: "ID",
-                        onDelete: ReferentialAction.SetNull);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(

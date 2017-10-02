@@ -8,7 +8,7 @@ using VehicleRoutingProblem.Data;
 namespace VehicleRoutingProblem.Migrations
 {
     [DbContext(typeof(VRPDbContext))]
-    [Migration("20170928101410_1")]
+    [Migration("20171002050057_1")]
     partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -162,8 +162,7 @@ namespace VehicleRoutingProblem.Migrations
 
                     b.Property<string>("Address");
 
-                    b.Property<int?>("CompanyInfoID")
-                        .IsRequired();
+                    b.Property<int?>("CompanyInfoID");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken();
@@ -210,13 +209,9 @@ namespace VehicleRoutingProblem.Migrations
                     b.Property<bool>("TwoFactorEnabled");
 
                     b.Property<string>("UserName")
-                        .IsRequired()
                         .HasMaxLength(256);
 
                     b.HasKey("Id");
-
-                    b.HasAlternateKey("UserName", "CompanyInfoID")
-                        .HasName("uniqe_UserNameAndCompany");
 
                     b.HasIndex("CompanyInfoID");
 
@@ -299,7 +294,7 @@ namespace VehicleRoutingProblem.Migrations
                     b.HasOne("VehicleRoutingProblem.Models.CompanyInfo", "CompanyInfo")
                         .WithMany("Users")
                         .HasForeignKey("CompanyInfoID")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasConstraintName("ForeignKey_Users_CompanyInfo");
                 });
 
             modelBuilder.Entity("VehicleRoutingProblem.Models.UserRoles", b =>
