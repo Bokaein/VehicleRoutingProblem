@@ -26,12 +26,7 @@ namespace VehicleRoutingProblem.Data
             builder.Entity<Models.Users>()
                 .HasAlternateKey(c => new { c.UserName, c.CompanyInfoID })
                 .HasName("uniqe_UserNameAndCompany");
-            //.ForeignKey(
-            //            name: "FK_AspNetUsers_tbCompanyInfos_CompanyInfoID",
-            //            column: x => x.CompanyInfoID,
-            //            principalTable: "tbCompanyInfos",
-            //            principalColumn: "ID",
-            //            onDelete: ReferentialAction.SetNull);
+            //builder.Entity<Models.Users>().
         }
         // public DbSet<RegisterViewModel> tbRegisters { get; set; }
         public DbSet<CompanyInfo> tbCompanyInfos { get; set; }
