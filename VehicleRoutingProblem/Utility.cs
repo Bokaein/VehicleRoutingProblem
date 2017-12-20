@@ -17,6 +17,10 @@ using VehicleRoutingProblem.Controllers;
 
 namespace VehicleRoutingProblem
 {
+
+
+
+
     public static class Utility
     {
         //public static IActionResult RedirectToLocal(string returnUrl)
